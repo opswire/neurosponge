@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { HealthCheckService } from './health-check.service';
 
 @Component({
   selector: 'app-root',
@@ -9,4 +10,17 @@ import { RouterOutlet } from '@angular/router';
 })
 export class AppComponent {
   title = 'neurosponge-client';
+  healthcheck = inject(HealthCheckService);
+
+  text = '';
+
+  constructor() {
+    this.healthcheck.check().then((response) => {
+      if (!response.success) {
+        throw new Error('Health check failed');
+      } else {
+        this.text = 'Health check passed';
+      }
+    });
+  }
 }
