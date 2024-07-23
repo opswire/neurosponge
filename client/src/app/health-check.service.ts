@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 interface SuccessfulResponse {
-  success: boolean;
+  data: 'success';
 }
 
 @Injectable({
@@ -13,7 +13,14 @@ export class HealthCheckService {
   constructor() {}
 
   async check(): Promise<SuccessfulResponse> {
-    const data = await fetch(this.url);
-    return (await data.json()) as SuccessfulResponse;
+    try {
+      const response = await fetch(this.url);
+      if (!response.ok) {
+        throw new Error('Health check failed');
+      }
+      return (await response.json()) as SuccessfulResponse;
+    } catch (error) {
+      throw new Error('Health check failed');
+    }
   }
 }

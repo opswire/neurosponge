@@ -15,12 +15,8 @@ export class AppComponent {
   text = '';
 
   constructor() {
-    this.healthcheck.check().then((response) => {
-      if (!response.success) {
-        throw new Error('Health check failed');
-      } else {
-        this.text = 'Health check passed';
-      }
+    this.healthcheck.check().then((data) => {
+      this.text = data.data;
     });
   }
 }
