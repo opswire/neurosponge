@@ -1,9 +1,13 @@
-.PHONY: up build vendor test echo
+.PHONY: start up build vendor test echo
 
 PORT = 8888
 
+# Билдит и поднимает сервер
+start:
+	docker-compose up -d --build
+
 # Поднимает сервер
-up: build
+up:
 	docker-compose up -d
 
 # Создает образ приложения

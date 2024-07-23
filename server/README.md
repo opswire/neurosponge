@@ -1,6 +1,6 @@
 ## Deploy
 
-- make up
+- make start
 
 ## Testing
 
