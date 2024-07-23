@@ -3,16 +3,18 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
 
-class EchoController
+final class EchoController
 {
-    /**
-     * Узнать статус приложения
-     */
+    #[Oa\Get(
+        path: '/api/echo',
+        description: 'Узнать статус приложения',
+        summary: 'Узнать статус приложения',
+        tags: ['Test']
+    )]
     #[OA\Response(
         response: 200,
         description: 'Возвращает статус ответа',
@@ -32,7 +34,6 @@ class EchoController
             type: 'object',
         )
     )]
-    #[OA\Tag(name: 'Test')]
     #[Route('/api/echo', name: 'echo', methods: ['GET'])]
     public function echo(): JsonResponse
     {
