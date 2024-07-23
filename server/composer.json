@@ -7,12 +7,15 @@
         "php": ">=8.2",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "nelmio/api-doc-bundle": "^4.29",
         "nelmio/cors-bundle": "^2.5",
+        "symfony/asset": "7.1.*",
         "symfony/console": "7.1.*",
         "symfony/dotenv": "7.1.*",
         "symfony/flex": "^2.4",
         "symfony/framework-bundle": "7.1.*",
         "symfony/runtime": "7.1.*",
+        "symfony/twig-bundle": "7.1.*",
         "symfony/yaml": "7.1.*"
     },
     "config": {

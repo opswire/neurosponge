@@ -24,4 +24,4 @@ test:
 
 # Тестовый endpoindt
 echo:
-	curl http://localhost:$(PORT)/echo
+	curl http://localhost:$(PORT)/api/echo
