@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { HealthCheckService } from './health-check.service';
+import { HealthCheckService } from './api/health-check/health-check.service';
 
 @Component({
   selector: 'app-root',
