@@ -8,7 +8,7 @@ interface SuccessfulResponse {
   providedIn: 'root',
 })
 export class HealthCheckService {
-  url = 'http://localhost:8888/echo';
+  url = 'http://localhost:8888/api/echo';
 
   constructor() {}
 
