@@ -1,12 +1,13 @@
+## NeuroSponge
+
 ## Deploy
 
+- move .env.example -> .env
 - make start
+- make vendor
+- make migrate
+- make seed
 
-## Testing
+## Get all card
 
-- make echo / make test
-
-## Swagger
-
-- GUI: api/doc
-- JSON: api/doc.json
+- [GET] localhost:8888/api/v1/quiz/cards
