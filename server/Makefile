@@ -1,4 +1,4 @@
-.PHONY: start up build vendor test echo
+.PHONY: start vendor migrate rollback seed
 
 PORT = 8888
 
@@ -6,22 +6,18 @@ PORT = 8888
 start:
 	docker compose up -d --build
 
-# Поднимает сервер
-up:
-	docker compose up -d
-
-# Создает образ приложения
-build:
-	docker compose build
-
 # Обновляет все пакеты
 vendor:
-	docker compose run --rm app composer install
+	docker compose run --rm sponge.test composer install
 
-# Запускает юнит-тесты
-test:
-	docker compose run --rm app bin/phpunit
+# Накатить миграцию
+migrate:
+	docker compose run --rm sponge.test migrate
 
-# Тестовый endpoindt
-echo:
-	curl http://localhost:$(PORT)/api/echo
+# Откатить миграцию
+rollback:
+	docker compose run --rm sponge.test migrate:rollback
+
+# Запустить seeder
+seed:
+	docker compose run --rm sponge.test db:seed

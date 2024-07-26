@@ -1,9 +1,0 @@
-nelmio_api_doc:
-    documentation:
-        info:
-            title: NeuroSponge Backend API Documentation
-            description: Петушкам вход воспрещен
-            version: 1.0.0
-    areas:
-        path_patterns:
-            - ^/api(?!/doc$) # Accepts routes except /api/doc
