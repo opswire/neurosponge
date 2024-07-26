@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
 
 interface SuccessfulResponse {
   data: 'success';
@@ -8,19 +9,11 @@ interface SuccessfulResponse {
   providedIn: 'root',
 })
 export class HealthCheckService {
-  url = 'http://localhost:8888/api/echo';
+  healthCheckUrl = 'http://localhost:8888/api/echo';
+
+  http = inject(HttpClient);
+
+  checkResult$ = this.http.get<SuccessfulResponse>(this.healthCheckUrl);
 
   constructor() {}
-
-  async check(): Promise<SuccessfulResponse> {
-    try {
-      const response = await fetch(this.url);
-      if (!response.ok) {
-        throw new Error('Health check failed');
-      }
-      return (await response.json()) as SuccessfulResponse;
-    } catch (error) {
-      throw new Error('Health check failed');
-    }
-  }
 }
