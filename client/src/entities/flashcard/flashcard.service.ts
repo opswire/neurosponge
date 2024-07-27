@@ -1,16 +1,16 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable, OnInit } from '@angular/core';
-import { FlashcardDTO } from './flashcard.model';
+import { inject, Injectable } from '@angular/core';
+import { FlashcardBulkDTO } from './flashcard.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FlashcardService {
-   = 'http://localhost:8888/api/';
+  bulkURL = 'http://localhost:8888/api/v1/quiz/cards';
 
   http = inject(HttpClient);
 
-  checkResult$ = this.http.get<FlashcardDTO>(this.healthCheckUrl);
+  flashcardBulk$ = this.http.get<FlashcardBulkDTO>(this.bulkURL);
 
   constructor() {}
 }

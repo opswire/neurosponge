@@ -1,10 +1,63 @@
-<main class="h-full w-full">
-  <div class="h-full w-full flex justify-center items-center">
-    @if (checkResult$ | async; as checkResult) {
-    <p class="text-3xl text-primary-teal-500 shadow-lg">
-      {{ checkResult.data }}
+<main class="h-full w-full bg-grayscale-0">
+  <header
+    class="flex justify-center items-center bg-white text-grayscale-900 xl:min-h-16"
+  >
+    header
+  </header>
+  <div class="h-full w-full flex flex-col items-center gap-4 pt-40">
+    <p class="text-desktop-h5 font-semibold text-grayscale-900">
+      Название колоды
     </p>
-    }
+    <div class="flex flex-col items-center gap-4">
+      <div class="flex items-center gap-10">
+        <button (click)="previousCard()">
+          <svg
+            width="22"
+            height="42"
+            viewBox="0 0 22 42"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M21 41L1 21L21 1"
+              stroke="#334E68"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </button>
+
+        <div
+          (click)="flipCard()"
+          class="text-desktop-l bg-white shadow-lg rounded-lg xl:min-w-96 xl:min-h-72 flex flex-col justify-center items-center"
+        >
+          @if (isFlipped) {
+          <p>{{ flashcardList[currentCardIndex].answer }}</p>
+          } @else {
+          <p>{{ flashcardList[currentCardIndex].question }}</p>
+          }
+        </div>
+        <button (click)="nextCard()">
+          <svg
+            width="22"
+            height="42"
+            viewBox="0 0 22 42"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M1 1L21 21L1 41"
+              stroke="#334E68"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </button>
+      </div>
+      <p>{{ currentCardIndex + 1 }} / {{ flashcardList.length }}</p>
+    </div>
   </div>
 </main>
 

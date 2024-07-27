@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { HealthCheckService } from './api/health-check/health-check.service';
 import { AsyncPipe } from '@angular/common';
+import { FlashcardService } from '../entities/flashcard/flashcard.service';
 
 @Component({
   selector: 'app-root',
@@ -11,11 +11,38 @@ import { AsyncPipe } from '@angular/common';
 })
 export class AppComponent {
   title = 'neurosponge-client';
-  healthcheck = inject(HealthCheckService);
+  flashcardService = inject(FlashcardService);
+  flashcardList = [] as Array<{
+    id: number;
+    question: string;
+    answer: string;
+    image_url: string | null;
+    created_at: string;
+    updated_at: string;
+  }>;
+  flashcards$ = this.flashcardService.flashcardBulk$.subscribe(
+    (list) => (this.flashcardList = list.success)
+  );
 
-  checkResult$ = this.healthcheck.checkResult$;
+  isFlipped = false;
 
-  text = '';
+  currentCardIndex = 0;
+
+  nextCard() {
+    if (this.currentCardIndex >= this.flashcardList.length - 1) return;
+    this.currentCardIndex += 1;
+    this.isFlipped = false;
+  }
+
+  previousCard() {
+    if (this.currentCardIndex <= 0) return;
+    this.currentCardIndex -= 1;
+    this.isFlipped = false;
+  }
+
+  flipCard() {
+    this.isFlipped = !this.isFlipped;
+  }
 
   constructor() {}
 }
