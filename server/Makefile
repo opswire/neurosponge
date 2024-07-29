@@ -12,12 +12,12 @@ vendor:
 
 # Накатить миграцию
 migrate:
-	docker compose run --rm sponge.test migrate
+	docker compose run --rm sponge.test php artisan migrate
 
 # Откатить миграцию
 rollback:
-	docker compose run --rm sponge.test migrate:rollback
+	docker compose run --rm sponge.test php artisan migrate:rollback
 
 # Запустить seeder
 seed:
-	docker compose run --rm sponge.test db:seed
+	docker compose run --rm sponge.test php artisan db:seed

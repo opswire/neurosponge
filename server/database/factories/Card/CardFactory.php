@@ -1,8 +1,8 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\Card;
 
-use App\Models\Card;
+use App\Models\Card\Card;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 final class CardFactory extends Factory

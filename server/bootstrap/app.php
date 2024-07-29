@@ -15,7 +15,7 @@ return Application::configure(basePath: dirname(__DIR__))
                 ->middleware('api')
                 ->name('api.v1.')
                 ->group([
-                    base_path('routes/api/v1/quiz.php')
+                    base_path('routes/api/v1/deck.php')
                 ]);
         }
     )

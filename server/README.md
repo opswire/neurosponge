@@ -10,4 +10,4 @@
 
 ## Get all card
 
-- [GET] localhost:8888/api/v1/quiz/cards
+- [GET] localhost:8888/api/v1/deck/{deckId}/cards

@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\Card;
-use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Database\Seeders\Deck\DeckSeeder;
 use Illuminate\Database\Seeder;
+
+// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class DatabaseSeeder extends Seeder
 {
@@ -18,8 +18,12 @@ class DatabaseSeeder extends Seeder
 //            'email' => 'test@example.com',
 //        ]);
 
-        Card::factory()
-            ->count(400)
-            ->create();
+//        Card::factory()
+//            ->count(400)
+//            ->create();
+        $this->call([
+           DeckSeeder::class,
+        ]);
+
     }
 }

@@ -1,13 +1,16 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\User;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Database\Factories\User\UserFactory;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable
+final class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
@@ -43,5 +46,24 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    protected static function newFactory(): Factory
+    {
+        return UserFactory::new();
+    }
+
+    public static function getTableName(): string
+    {
+        return with(new self())->getTable();
+    }
+
+    public function profile(): HasOne
+    {
+        return $this->hasOne(
+            related: UserProfile::class,
+            foreignKey: 'user_id',
+            localKey: 'id',
+        );
     }
 }
