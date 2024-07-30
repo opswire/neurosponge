@@ -1,25 +1,9 @@
-import { Button } from "@/shared/ui/components/ui/button";
-import { ModeToggle } from "./mode-toggle";
+import { Header } from "./ui/header";
 
 export default function Home() {
   return (
-    <div className="lg:max-w-screen-lg xl:max-w-screen-xl mx-auto">
-      <header className="lg:h-16 sticky top-0 z-50 w-full border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <nav className="h-full flex items-center justify-between ">
-          <div className="flex items-baseline gap-10">
-            <p className="text-lg font-semibold">neurosponge</p>
-            <div className="flex text-sm text-muted-foreground gap-6">
-              <p>Колоды</p>
-              <p>Цены</p>
-            </div>
-          </div>
-          <div className="flex gap-4">
-            <Button>Войти</Button>
-            <ModeToggle />
-          </div>
-        </nav>
-      </header>
-      <main className="flex min-h-screen flex-col px-8 pt-8 items-center gap-24">
+    <main className="lg:max-w-screen-lg xl:max-w-screen-xl mx-auto">
+      <div className="flex min-h-screen flex-col px-8 pt-8 items-center gap-24">
         <div>
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
           eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
@@ -53,7 +37,7 @@ export default function Home() {
           pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
           culpa qui officia deserunt mollit anim id est laborum."
         </div>
-      </main>
-    </div>
+      </div>
+    </main>
   );
 }
