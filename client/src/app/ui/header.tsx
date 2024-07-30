@@ -5,17 +5,38 @@ import { ModeToggle } from "./mode-toggle";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
+import { Menu } from "lucide-react";
+
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/shared/ui/components/ui/drawer";
+import { useEffect, useState } from "react";
 
 export const Header = () => {
+  const [open, setOpen] = useState(false);
   const pathname = usePathname();
+
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
   return (
-    <header className="lg:h-16 lg:max-w-screen-lg xl:max-w-screen-xl mx-auto sticky top-0 z-50 w-full border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <nav className="h-full flex items-center justify-between ">
+    <header className="h-16 border-b   sticky top-0 z-50 w-full border-border/90 bg-background/10 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <nav className="px-8 h-full mx-auto flex lg:max-w-screen-lg flex-none xl:max-w-screen-xl items-center justify-between ">
         <div className="flex items-baseline gap-10">
-          <Link href={"/"} className="text-lg font-semibold">
-            neurosponge
+          <Link
+            href={"/"}
+            className="text-lg font-semibold text-muted-foreground"
+          >
+            neuro<span className="text-primary">sponge</span>
           </Link>
-          <div className="flex text-sm text-muted-foreground gap-6">
+          <div className="hidden sm:flex text-sm text-muted-foreground">
             <Button
               className={clsx({ "text-primary": pathname === "/decks" })}
               variant={"link"}
@@ -30,9 +51,46 @@ export const Header = () => {
             </Button>
           </div>
         </div>
-        <div className="flex gap-4">
+        <div className="hidden sm:flex gap-4">
           <Button>Войти</Button>
           <ModeToggle />
+        </div>
+        <div className="sm:hidden flex items-center">
+          <Drawer open={open} onOpenChange={setOpen} direction="right">
+            <DrawerTrigger>
+              <Menu />
+            </DrawerTrigger>
+            <DrawerContent>
+              <div className="flex mt-8 flex-col flex-auto items-center gap-10">
+                <Link
+                  href={"/"}
+                  className="text-lg font-semibold text-muted-foreground"
+                >
+                  neuro<span className="text-primary">sponge</span>
+                </Link>
+                <div className="flex flex-col text-sm text-muted-foreground">
+                  <Button
+                    className={clsx({ "text-primary": pathname === "/decks" })}
+                    variant={"link"}
+                  >
+                    <Link href={"/decks"}>Колоды</Link>
+                  </Button>
+                  <Button
+                    className={clsx({
+                      "text-primary": pathname === "/pricing",
+                    })}
+                    variant={"link"}
+                  >
+                    <Link href={"/pricing"}>Тарифы</Link>
+                  </Button>
+                </div>
+                <div className="flex  gap-4">
+                  <Button>Войти</Button>
+                  <ModeToggle />
+                </div>
+              </div>
+            </DrawerContent>
+          </Drawer>
         </div>
       </nav>
     </header>
