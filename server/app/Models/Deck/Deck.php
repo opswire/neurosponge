@@ -23,6 +23,7 @@ use Illuminate\Database\Query\Builder;
  * @property int $category_id
  * @property string $uuid
  * @property string $title
+ * @property bool $is_preview
  * @property DateTime $created_at
  * @property DateTime $updated_at
  *
@@ -45,6 +46,7 @@ final class Deck extends AbstractModel
     protected $fillable = [
         'uuid',
         'title',
+        'is_preview',
     ];
 
     protected $casts = [

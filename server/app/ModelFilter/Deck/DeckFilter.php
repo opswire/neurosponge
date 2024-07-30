@@ -13,7 +13,7 @@ final class DeckFilter extends ModelFilter
         return $this->where(
             column: Deck::getTableName() . '.title',
             operator: 'ilike',
-            value: "%{$search}%"
+            value: "%{$search}%",
         );
     }
 
@@ -22,7 +22,7 @@ final class DeckFilter extends ModelFilter
         return $this->where(
             column: Deck::getTableName() . '.author_id',
             operator: '=',
-            value: $id
+            value: $id,
         );
     }
 
@@ -31,7 +31,16 @@ final class DeckFilter extends ModelFilter
         return $this->where(
             column: Deck::getTableName() . '.category_id',
             operator: '=',
-            value: $id
+            value: $id,
+        );
+    }
+
+    public function isPreview(bool $isPreview): self
+    {
+        return $this->where(
+            column: Deck::getTableName() . '.is_preview',
+            operator: '=',
+            value: $isPreview,
         );
     }
 }

@@ -14,6 +14,7 @@ final class DeckFactory extends Factory
         return [
             'uuid' => $this->faker->uuid(),
             'title' => $this->faker->word(),
+            'is_preview' => $this->faker->boolean(),
         ];
     }
 }

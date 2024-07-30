@@ -24,6 +24,7 @@ return new class extends Migration
                 ->restrictOnDelete()
                 ->restrictOnUpdate();
             $table->string('title', 255);
+            $table->boolean('is_preview', false);
             $table->timestamps();
         });
     }

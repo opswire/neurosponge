@@ -22,6 +22,7 @@ final class DeckTransformer extends Transformer
             'id' => $deck->id,
             'uuid' => $deck->uuid,
             'title' => $deck->title,
+            'is_preview' => $deck->is_preview,
             'cards_count' => $deck->cards_count
         ];
     }
