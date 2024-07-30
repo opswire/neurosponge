@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Action\Deck\Card;
+namespace App\Action\Deck;
 
 use App\Models\Deck\Deck;
 
-final class GetDeckCardsAction
+final class GetDeckAction
 {
     public function execute(int $deckId): Deck
     {
