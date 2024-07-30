@@ -32,6 +32,7 @@ use Illuminate\Database\Query\Builder;
  * @property-read DeckCategory $category
  *
  * @method static Builder filter(array $filters)
+ * @method static Builder sort(array $sorts)
  */
 final class Deck extends AbstractModel
 {
