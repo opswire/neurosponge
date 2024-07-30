@@ -19,6 +19,15 @@
     - filter[author_id]=value
     - filter[category_id]=value
 
+### Sortable query params:
+    - sort[id]=asc|desc
+    - sort[created_at]=asc|desc
+
+### Paginate query params:
+    - paginate=true|false
+    - page=value
+    - per_page=value
+
 ## Get deck by ID
 
 - [GET] localhost:8888/api/v1/deck/{deckId}

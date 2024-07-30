@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Models\Deck;
 
+use App\Core\Sorter\Sortable;
 use App\ModelFilter\Deck\DeckFilter;
 use App\Models\AbstractModel;
 use App\Models\Card\Card;
@@ -34,6 +35,7 @@ final class Deck extends AbstractModel
 {
     use HasFactory;
     use Filterable;
+    use Sortable;
 
     protected $table = 'decks';
 
