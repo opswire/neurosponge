@@ -12,5 +12,6 @@ $router->group(['prefix' => 'deck', 'as' => 'deck.'],  static function (Router $
         ->name('index');
     $router
         ->get('{deckId}', GetDeckController::class)
-        ->name('show');
+        ->name('show')
+        ->middleware('auth:api');
 });
