@@ -1,11 +1,15 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
+import { DeckDTO } from "../model/deck.types";
 
-export const DeckCard = () => {
+interface Props {
+  deck: DeckDTO;
+}
+export const DeckCard = ({ deck }: Props) => {
   return (
-    <div className="min-h-24 min-w-80 hover:bg-muted border hover:border-border dark:bg-muted/40 hover:dark:bg-muted  p-8 flex flex-col gap-12 rounded-md">
+    <>
       <div className="flex flex-col gap-2">
         <h4 className="scroll-m-20 text-xl font-semibold tracking-tight">
-          Первая колода
+          {deck.title}
         </h4>
         <p className="text-sm font-medium leading-none text-muted-foreground">
           114 карточек
@@ -18,6 +22,6 @@ export const DeckCard = () => {
         </Avatar>
         <p className="leading-7 text-muted-foreground">nickname</p>
       </div>
-    </div>
+    </>
   );
 };
