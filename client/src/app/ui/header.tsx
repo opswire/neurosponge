@@ -37,18 +37,23 @@ export const Header = () => {
             neuro<span className="text-primary">sponge</span>
           </Link>
           <div className="hidden sm:flex text-sm text-muted-foreground">
-            <Button
-              className={clsx({ "text-primary": pathname === "/decks" })}
-              variant={"link"}
-            >
-              <Link href={"/decks"}>Колоды</Link>
-            </Button>
-            <Button
-              className={clsx({ "text-primary": pathname === "/pricing" })}
-              variant={"link"}
-            >
-              <Link href={"/pricing"}>Тарифы</Link>
-            </Button>
+            <Link href={"/decks"}>
+              <Button
+                className={clsx({ "text-primary": pathname === "/decks" })}
+                variant={"link"}
+              >
+                Колоды
+              </Button>
+            </Link>
+
+            <Link href={"/pricing"}>
+              <Button
+                className={clsx({ "text-primary": pathname === "/pricing" })}
+                variant={"link"}
+              >
+                Тарифы
+              </Button>
+            </Link>
           </div>
         </div>
         <div className="hidden sm:flex gap-4">
