@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Deck;
 
 use App\Action\Deck\GetDecksAction;
+use App\DTO\Deck\Deck\InputGetDecksDTO;
 use App\Transformer\Deck\DeckTransformer;
 use Flugg\Responder\Responder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -16,9 +17,9 @@ final readonly class GetDecksController
         private GetDecksAction $action,
     ) {}
 
-    public function __invoke(): JsonResponse
+    public function __invoke(InputGetDecksDTO $dto): JsonResponse
     {
-        $decks = $this->action->execute();
+        $decks = $this->action->execute($dto);
 
         return $this->responder
             ->success($decks, new DeckTransformer())

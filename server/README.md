@@ -8,6 +8,17 @@
 - make migrate
 - make seed
 
-## Get all card
+----------
 
-- [GET] localhost:8888/api/v1/deck/{deckId}/cards
+## Get all decks
+
+- [GET] localhost:8888/api/v1/deck
+
+### Filterable query params:
+    - filter[search]=value
+    - filter[author_id]=value
+    - filter[category_id]=value
+
+## Get deck by ID
+
+- [GET] localhost:8888/api/v1/deck/{deckId}
