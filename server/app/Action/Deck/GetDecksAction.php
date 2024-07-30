@@ -12,6 +12,9 @@ final class GetDecksAction
     public function execute(InputGetDecksDTO $dto): LengthAwarePaginator
     {
         return Deck::query()
+            ->withCount([
+                'cards',
+            ])
             ->filter($dto->filter)
             ->sort($dto->sort)
             ->paginate();

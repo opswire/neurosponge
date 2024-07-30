@@ -26,6 +26,8 @@ use Illuminate\Database\Query\Builder;
  * @property DateTime $created_at
  * @property DateTime $updated_at
  *
+ * @property-read int $cards_count
+ *
  * @property-read User $author
  * @property-read DeckCategory $category
  *

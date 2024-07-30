@@ -23,9 +23,14 @@ final readonly class GetDecksController
 
         return $this->responder
             ->success($decks, new DeckTransformer())
-            ->with([
-                'category:id,title,color',
-            ])
+            ->with(
+                [
+                    'author' => static fn (BelongsTo $builder): BelongsTo => $builder
+                        ->select(['id', 'name', 'email'])
+                        ->with(['profile:user_id,name']),
+                    'category:id,title,color',
+                ]
+            )
             ->respond();
     }
 }

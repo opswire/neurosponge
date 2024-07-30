@@ -6,12 +6,17 @@ namespace App\Models\Card;
 use App\Models\AbstractModel;
 use App\Models\Deck\Deck;
 use Database\Factories\Card\CardFactory;
+use DateTime;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * @property int $id
+ * @property string $question
+ * @property string $answer
+ * @property DateTime $created_at
+ * @property DateTime $updated_at
  */
 final class Card extends AbstractModel
 {
