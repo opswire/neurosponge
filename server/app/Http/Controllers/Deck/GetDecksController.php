@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Deck;
 
 use App\Action\Deck\GetDecksAction;
-use App\DTO\Deck\Deck\InputGetDecksDTO;
+use App\DTO\Deck\Deck\input\InputGetDecksDTO;
 use App\Transformer\Deck\DeckTransformer;
 use Flugg\Responder\Responder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;

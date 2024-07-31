@@ -16,7 +16,7 @@ return new class extends Migration
                 ->constrained(User::getTableName())
                 ->restrictOnDelete()
                 ->restrictOnUpdate();
-            $table->string('name', 255);
+            $table->string('name', 255)->nullable();
         });
     }
 

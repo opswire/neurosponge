@@ -15,6 +15,10 @@ final class UserProfile extends AbstractModel
 
     protected $table = 'user_profiles';
 
+    protected $fillable = [
+        'name',
+    ];
+
     public $timestamps = false;
 
     protected $primaryKey = null;

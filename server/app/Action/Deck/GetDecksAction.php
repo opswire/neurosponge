@@ -3,12 +3,11 @@ declare(strict_types=1);
 
 namespace App\Action\Deck;
 
-use App\DTO\Deck\Deck\InputGetDecksDTO;
+use App\DTO\Deck\Deck\input\InputGetDecksDTO;
 use App\Models\Deck\Deck;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
-use function Amp\Dns\query;
 
 final class GetDecksAction
 {

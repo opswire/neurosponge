@@ -14,7 +14,7 @@ use Spatie\Permission\Models\Role as SpatieRole;
 /**
  * @property int $id
  * @property string $name
- * @property string $guard_name
+ * @property string $display_name
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  *

@@ -31,3 +31,11 @@
 ## Get deck by ID
 
 - [GET] localhost:8888/api/v1/deck/{deckId}
+
+## Register
+
+- [POST] localhost:8888/api/v1/auth/register
+
+### Body params
+    - [required] email=value
+    - [required] password=value
