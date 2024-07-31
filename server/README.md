@@ -13,6 +13,7 @@
 ## Get all decks
 
 - [GET] localhost:8888/api/v1/deck
+- [GET] localhost:8888/api/v1/deck/title (only title)
 
 ### Filterable query params:
     - filter[search]=value
