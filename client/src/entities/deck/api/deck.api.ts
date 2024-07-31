@@ -17,6 +17,7 @@ export type GetAllDecksQueryParams = {
   "filter[search]"?: string;
   "filter[category_id]"?: string;
   "filter[author_id]"?: string;
+  "filter[is_preview]"?: boolean;
   "sort[id]"?: "asc" | "desc";
   "sort[created_at]"?: "asc" | "desc";
   page?: number;
@@ -24,9 +25,9 @@ export type GetAllDecksQueryParams = {
 };
 
 export async function getAllDecks(
-  params: GetAllDecksQueryParams
+  params?: GetAllDecksQueryParams
 ): Promise<{ status: number; success: boolean; data: DeckDTO[] }> {
-  function constructQueryString(params: GetAllDecksQueryParams) {
+  function constructQueryString(params = {} as GetAllDecksQueryParams) {
     const queryParams = [];
 
     for (const [key, value] of Object.entries(params)) {
@@ -54,4 +55,18 @@ export async function getAllDecks(
   }
 
   return res.json();
+}
+
+export async function getDeckById(
+  id: string
+): Promise<{ status: number; success: boolean; data: DeckDTO }> {
+  const res = await fetch(HOST_URL + "/deck/" + id, {
+    next: { tags: [allDecksTag] },
+  });
+  if (!res.ok) {
+    // This will activate the closest `error.js` Error Boundary
+    throw new Error("Failed to fetch data");
+  } else {
+    return res.json();
+  }
 }

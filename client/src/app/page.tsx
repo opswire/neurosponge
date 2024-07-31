@@ -1,12 +1,12 @@
 "use server";
-import { DeckList, getAllDecks } from "@/entities";
+import { Button } from "@/shared";
+import Link from "next/link";
+import { DeckListCarousel } from "../entities/deck/ui/deck-list-carousel";
+import { getAllDecks } from "../entities";
 
 export default async function Home() {
-  const { data: decks } = await getAllDecks({
-    "sort[created_at]": "desc",
-    per_page: 1,
-    page: 1,
-  });
+  const { data: decks } = await getAllDecks({ "filter[is_preview]": true });
+
   return (
     <main className="lg:max-w-screen-lg xl:max-w-screen-xl mx-auto">
       <div>
@@ -28,16 +28,23 @@ export default async function Home() {
         </section>
         <div className="flex flex-col gap-40">
           <section className="flex flex-col gap-12 items-stretch ">
-            <p className="w-fit self-center scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">
+            <h2 className="w-fit self-center scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">
               Как это работает?
-            </p>
+            </h2>
             <div className="bg-pattern-paper min-h-[640px] flex-auto"></div>
           </section>
-          <section className="flex flex-col gap-12 items-stretch ">
-            <p className="w-fit self-center scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">
+          <section className="flex flex-col gap-12 items-center mb-40">
+            <h2 className="w-fit self-center scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">
               Популярные колоды
-            </p>
-            <DeckList decks={decks} />
+            </h2>
+            <div className="flex flex-col items-center gap-12">
+              <DeckListCarousel decks={decks} />
+              <Link href={"/decks"}>
+                <Button className="w-80" variant={"secondary"}>
+                  Посмотреть все
+                </Button>
+              </Link>
+            </div>
           </section>
         </div>
       </div>
