@@ -2,22 +2,22 @@
 
 import { CommandGroup, CommandItem, CommandList, CommandInput } from "@/shared";
 import { Command as CommandPrimitive } from "cmdk";
-import {
-  useState,
-  useRef,
-  useCallback,
-  type KeyboardEvent,
-  use,
-  useEffect,
-} from "react";
+import { useState, useRef, useCallback, type KeyboardEvent } from "react";
 
-import { Skeleton } from "@/shared";
-
-import { Check } from "lucide-react";
+import { Search } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { DeckQueryParamKeys, getDeckSuggestions } from "@/entities";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useDebouncedCallback } from "use-debounce";
+
+//ожидаемое поведение:
+// при переходе с другой страницы:
+// + строка поиска пустая
+// (при нажатии на alt почему-то отображается)+ при нажатии на строку поиска она становится активной но выпадающий список не отображается
+// +при вводе первого символа появляется выпадающий список с двумя группами поиск (там дублируется значение строки поиска) и подсказки, подсвечивается строка поиска
+// + через некоторый промежуток времени после остановки ввода подсказки обновляются
+// + если нажать на enter с введенным значением и подсвеченным поиском, то выпадающий список скрывается и в url попадает значение из строки поиска
+//+ если нажать на enter с подсвеченной подсказкой, то эта подсказка отображается в строке поиска и в url
 
 type Suggestion = {
   id: string;
@@ -30,11 +30,12 @@ type AutoCompleteProps = {
   placeholder?: string;
   className?: string;
 };
+
+const SUGGESTION_DEBOUNCE_TIME = 500;
 const MAX_SUGGESTIONS = 7;
 
 export const AutoComplete = ({
   placeholder,
-  emptyMessage,
   disabled = false,
   className,
 }: AutoCompleteProps) => {
@@ -48,21 +49,37 @@ export const AutoComplete = ({
 
   const [isOpen, setOpen] = useState(false);
   const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [selected, setSelected] = useState<Suggestion>();
 
-  //working with url path
   const { replace } = useRouter();
   const pathname = usePathname();
+
+  //получение подсказок при вводе
+  //будет вызвана спустя SUGGESTION_DEBOUNCE_TIME после последнего ввода символа
+  const debouncedGetSuggestions = useDebouncedCallback(() => {
+    if (inputValue) {
+      getDeckSuggestions({
+        "filter[search]": inputValue,
+        per_page: MAX_SUGGESTIONS,
+      }).then((responseJson) => {
+        setSuggestions(
+          responseJson.data.map((deck) => ({
+            id: deck.id,
+            value: deck.title,
+          }))
+        );
+      });
+    }
+  }, SUGGESTION_DEBOUNCE_TIME);
 
   const handleValueChange = (value: string) => {
     setInputValue(value);
 
     setOpen(value ? true : false);
 
-    handleSearch(value);
+    debouncedGetSuggestions();
   };
 
+  //применение поискового запроса
   const handleSearch = useDebouncedCallback((queryString: string) => {
     setInputValue(queryString);
 
@@ -74,27 +91,11 @@ export const AutoComplete = ({
     }
 
     replace(`${pathname}?${params.toString()}`);
-
-    if (inputValue) {
-      setLoading(true);
-      getDeckSuggestions({
-        "filter[search]": inputValue,
-        per_page: MAX_SUGGESTIONS,
-      }).then((responseJson) => {
-        setSuggestions(
-          responseJson.data.map((deck) => ({
-            id: deck.id,
-            value: deck.title,
-          }))
-        );
-        setLoading(false);
-      });
-    }
   }, 500);
 
   //установлен на родительском компоненте инпута, т.к. к нему всплывает событие при нажатии клавиши на фокусе ввода
-  //если нет ссылки на инпут, ничего не делает
-  //если есть ссылка на инпут и состояние "isOpen=false", то устанавливает состояние "isOpen=true" (рендерит список подсказок)
+  //если нет рефа на инпут, ничего не делает
+  //если есть реф на инпут и состояние "isOpen=false", то устанавливает состояние "isOpen=true" (рендерит список подсказок)
   //при нажатии эскейпа инпут блюрится
   const handleKeyDown = useCallback(
     (event: KeyboardEvent<HTMLDivElement>) => {
@@ -108,15 +109,8 @@ export const AutoComplete = ({
         setOpen(true);
       }
 
-      // This is not a default behaviour of the <input /> field
-      if (event.key === "Enter" && input.value !== "") {
-        const optionToSelect = suggestions.find(
-          (suggestion) => suggestion.value === input.value
-        );
-        if (optionToSelect) {
-          setSelected(optionToSelect);
-          handleValueChange(optionToSelect.value);
-        }
+      if (input.value === "") {
+        setOpen(false);
       }
 
       if (event.key === "Escape") {
@@ -127,18 +121,16 @@ export const AutoComplete = ({
   );
 
   //установлен на родительском компоненте инпута, т.к. к нему всплывает событие при блюре инпута
-  //демонтирует список подсказок
+  //демонтирует список подсказок, в поисковую строку вставляет последнее выбранное из подсказок значение или очищает
   const handleBlur = useCallback(() => {
-    console.log("blur");
-    handleValueChange(selected?.value || "");
     setOpen(false);
-  }, [selected]);
+  }, []);
 
   //устанавлен на CommandItem
-  const handleSelectSuggestion = useCallback(
-    (selectedSuggestion: Suggestion) => {
-      setSelected(selectedSuggestion);
-      handleValueChange(selectedSuggestion.value);
+  const handleSelect = useCallback(
+    (value: string) => {
+      handleValueChange(value);
+      handleSearch(value);
 
       // This is a hack to prevent the input from being focused after the user selects an option
       // We can call this hack: "The next tick"
@@ -150,14 +142,25 @@ export const AutoComplete = ({
   );
 
   return (
-    <CommandPrimitive className={className} loop onKeyDown={handleKeyDown}>
+    <CommandPrimitive
+      className={className}
+      filter={(value, search) => {
+        if (value.toLowerCase().startsWith(search)) {
+          return 1;
+        } else {
+          return 0;
+        }
+      }}
+      loop
+      onKeyDown={handleKeyDown}
+    >
       <div>
         <CommandInput
           ref={inputRef}
           value={inputValue}
           onValueChange={handleValueChange}
-          onBlur={handleBlur}
           onFocus={() => setOpen(true)}
+          onBlur={handleBlur}
           placeholder={placeholder}
           disabled={disabled}
           className="text-sm"
@@ -170,55 +173,38 @@ export const AutoComplete = ({
             isOpen ? "block" : "hidden"
           )}
         >
-          <CommandList className="rounded-lg ring-1 ring-border py-4">
-            {loading ? (
-              <CommandPrimitive.Loading>
-                <div className="flex flex-col gap-1">
-                  {Array.from({ length: MAX_SUGGESTIONS }).map((_, index) => (
-                    <Skeleton
-                      key={index}
-                      className="h-8 bg-muted/10 w-full relative gap-1"
-                    >
-                      <Skeleton
-                        className={
-                          "w-1/4 px-2 h-4 absolute bottom-0 top-0 left-4 my-auto"
-                        }
-                      />
-                    </Skeleton>
-                  ))}
-                </div>
-              </CommandPrimitive.Loading>
-            ) : null}
-            {suggestions.length > 0 && !loading && isOpen ? (
-              <CommandGroup>
-                {suggestions.map((suggestion) => {
-                  const isSelected = selected?.id === suggestion.id;
-                  return (
-                    <CommandItem
-                      key={suggestion.id}
-                      value={suggestion.value + suggestion.id}
-                      onMouseDown={(event) => {
-                        event.preventDefault();
-                        event.stopPropagation();
-                      }}
-                      onSelect={() => handleSelectSuggestion(suggestion)}
-                      className={cn(
-                        "flex w-full items-center gap-2",
-                        !isSelected ? "pl-8" : null
-                      )}
-                    >
-                      {isSelected ? <Check className="w-4 h-2" /> : null}
-                      {suggestion.value + suggestion.id}
-                    </CommandItem>
-                  );
-                })}
+          <CommandList className="rounded-lg ring-1 ring-border py-4 h-fit">
+            {inputValue && (
+              <CommandGroup forceMount heading={`Искать "${inputValue}"`}>
+                <CommandItem
+                  className="pl-8"
+                  value={inputValue}
+                  onSelect={handleSelect}
+                >
+                  <Search className="w-4 h-4 mr-2" />
+                  {inputValue}
+                </CommandItem>
               </CommandGroup>
-            ) : null}
-            {!loading ? (
-              <CommandPrimitive.Empty className="select-none rounded-sm px-2 py-3 mt-2 text-center text-sm">
-                {emptyMessage}
-              </CommandPrimitive.Empty>
-            ) : null}
+            )}
+            <CommandGroup heading="Колоды">
+              {isOpen
+                ? suggestions.map((suggestion) => {
+                    return (
+                      <CommandItem
+                        key={suggestion.id}
+                        onMouseDown={(event) => {
+                          event.preventDefault();
+                          event.stopPropagation();
+                        }}
+                        onSelect={handleSelect}
+                        className="flex w-full items-center gap-2 pl-8"
+                      >
+                        {suggestion.value}
+                      </CommandItem>
+                    );
+                  })
+                : null}
+            </CommandGroup>
           </CommandList>
         </div>
       </div>

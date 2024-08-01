@@ -1,9 +1,12 @@
+"use client";
+
 import { AutoComplete } from "./components/autocomplete-bar";
 import { SortMenu } from "./components/sort-menu";
 
 export default function SearchPage() {
+  const submitSearch = (value: string) => {};
   return (
-    <main className="xl:max-w-screen-xl lg:max-w-screen-lg mx-auto flex flex-col items-stretch mt-12 px-8">
+    <main className="xl:max-w-screen-xl lg:max-w-screen-lg mx-auto flex flex-col items-stretch mt-12 px-8 gap-12">
       <div className="hidden gap-10 w-full flex-auto sm:flex justify-between items-end">
         <SortMenu className="w-1/4" />
         <AutoComplete
@@ -20,6 +23,10 @@ export default function SearchPage() {
           emptyMessage="Совпадения не найдены"
         />
         <SortMenu className="self-end" />
+      </div>
+
+      <div>
+        <h1>Результаты поиска по </h1>
       </div>
     </main>
   );
