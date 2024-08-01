@@ -39,7 +39,7 @@ export default async function Home() {
             </h2>
             <div className="flex flex-col items-center gap-12">
               <DeckListCarousel decks={decks} />
-              <Link href={"/decks"}>
+              <Link href={"/search"}>
                 <Button className="w-80" variant={"secondary"}>
                   Посмотреть все
                 </Button>

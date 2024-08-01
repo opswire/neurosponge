@@ -9,3 +9,7 @@ export * from "./ui/components/ui/button";
 export * from "./ui/components/ui/dropdown-menu";
 export * from "./ui/components/ui/carousel";
 export * from "./ui/components/ui/progress";
+export * from "./ui/components/ui/command";
+export * from "./ui/components/ui/dialog";
+export * from "./ui/components/ui/popover";
+export * from "./ui/components/ui/skeleton";

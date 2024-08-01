@@ -37,9 +37,9 @@ export const Header = () => {
             neuro<span className="text-primary">sponge</span>
           </Link>
           <div className="hidden sm:flex text-sm text-muted-foreground">
-            <Link href={"/decks"}>
+            <Link href={"/search"}>
               <Button
-                className={clsx({ "text-primary": pathname === "/decks" })}
+                className={clsx({ "text-primary": pathname === "/search" })}
                 variant={"link"}
               >
                 Колоды
@@ -75,10 +75,10 @@ export const Header = () => {
                 </Link>
                 <div className="flex flex-col text-sm text-muted-foreground">
                   <Button
-                    className={clsx({ "text-primary": pathname === "/decks" })}
+                    className={clsx({ "text-primary": pathname === "/search" })}
                     variant={"link"}
                   >
-                    <Link href={"/decks"}>Колоды</Link>
+                    <Link href={"/search"}>Колоды</Link>
                   </Button>
                   <Button
                     className={clsx({
