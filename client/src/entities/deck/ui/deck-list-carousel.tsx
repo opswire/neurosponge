@@ -104,10 +104,12 @@ export function DeckListCarousel({ decks }: Props) {
         <CarouselPrevious className="hidden sm:inline-flex" />
         <CarouselNext className="hidden sm:inline-flex" />
       </Carousel>
-      <Progress
-        className="rounded-none h-2 position-relative"
-        value={(currentPane / panesTotal) * 100}
-      />
+      {panesTotal > 1 && (
+        <Progress
+          className="rounded-none h-[2px] position-relative"
+          value={(currentPane / panesTotal) * 100}
+        />
+      )}
     </>
   );
 }
