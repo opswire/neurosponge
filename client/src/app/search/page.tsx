@@ -9,7 +9,7 @@ export default function SearchPage() {
         <AutoComplete
           className="flex-grow w-3/4 justify-end xl:max-w-screen-lg lg:max-w-screen-md md:max-w-screen-sm sm:max-w-96"
           placeholder="Поиск по колодам..."
-          emptyMessage="По вашему запросу ничего не найдено"
+          emptyMessage="Совпадения не найдены"
         />
       </div>
 
@@ -17,7 +17,7 @@ export default function SearchPage() {
         <AutoComplete
           className="flex-grow"
           placeholder="Поиск по колодам..."
-          emptyMessage="По вашему запросу ничего не найдено"
+          emptyMessage="Совпадения не найдены"
         />
         <SortMenu className="self-end" />
       </div>

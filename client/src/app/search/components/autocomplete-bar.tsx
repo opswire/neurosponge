@@ -129,15 +129,14 @@ export const AutoComplete = ({
   //установлен на родительском компоненте инпута, т.к. к нему всплывает событие при блюре инпута
   //демонтирует список подсказок
   const handleBlur = useCallback(() => {
-    setOpen(false);
+    console.log("blur");
     handleValueChange(selected?.value || "");
+    setOpen(false);
   }, [selected]);
 
   //устанавлен на CommandItem
   const handleSelectSuggestion = useCallback(
     (selectedSuggestion: Suggestion) => {
-      handleValueChange(selectedSuggestion.value);
-
       setSelected(selectedSuggestion);
       handleValueChange(selectedSuggestion.value);
 
@@ -171,14 +170,14 @@ export const AutoComplete = ({
             isOpen ? "block" : "hidden"
           )}
         >
-          <CommandList className="rounded-lg ring-1 ring-border">
+          <CommandList className="rounded-lg ring-1 ring-border py-4">
             {loading ? (
               <CommandPrimitive.Loading>
-                <div className=" flex flex-col gap-1">
+                <div className="flex flex-col gap-1">
                   {Array.from({ length: MAX_SUGGESTIONS }).map((_, index) => (
                     <Skeleton
                       key={index}
-                      className="h-8 bg-muted/40 w-full relative"
+                      className="h-8 bg-muted/10 w-full relative gap-1"
                     >
                       <Skeleton
                         className={
@@ -190,8 +189,8 @@ export const AutoComplete = ({
                 </div>
               </CommandPrimitive.Loading>
             ) : null}
-            {suggestions.length > 0 && !loading ? (
-              <CommandGroup className="gap-2" heading="Колоды">
+            {suggestions.length > 0 && !loading && isOpen ? (
+              <CommandGroup>
                 {suggestions.map((suggestion) => {
                   const isSelected = selected?.id === suggestion.id;
                   return (
@@ -208,7 +207,7 @@ export const AutoComplete = ({
                         !isSelected ? "pl-8" : null
                       )}
                     >
-                      {isSelected ? <Check className="w-4" /> : null}
+                      {isSelected ? <Check className="w-4 h-2" /> : null}
                       {suggestion.value + suggestion.id}
                     </CommandItem>
                   );
@@ -216,7 +215,7 @@ export const AutoComplete = ({
               </CommandGroup>
             ) : null}
             {!loading ? (
-              <CommandPrimitive.Empty className="select-none rounded-sm px-2 py-3 text-center text-sm">
+              <CommandPrimitive.Empty className="select-none rounded-sm px-2 py-3 mt-2 text-center text-sm">
                 {emptyMessage}
               </CommandPrimitive.Empty>
             ) : null}
