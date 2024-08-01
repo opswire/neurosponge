@@ -8,21 +8,21 @@ export default function SearchPage() {
   return (
     <main className="xl:max-w-screen-xl lg:max-w-screen-lg mx-auto flex flex-col items-stretch mt-12 px-8 gap-12">
       <div className="hidden gap-10 w-full flex-auto sm:flex justify-between items-end">
-        <SortMenu className="w-1/4" />
+        <SortMenu className="flex-grow-0" />
         <AutoComplete
-          className="flex-grow w-3/4 justify-end xl:max-w-screen-lg lg:max-w-screen-md md:max-w-screen-sm sm:max-w-96"
+          className="flex-grow  justify-end   "
           placeholder="Поиск по колодам..."
           emptyMessage="Совпадения не найдены"
         />
       </div>
 
-      <div className="flex flex-col gap-4 w-full flex-auto sm:hidden justify-between items-center">
+      <div className="flex flex-col gap-4 w-full flex-auto sm:hidden justify-between items-stretch">
         <AutoComplete
-          className="flex-grow"
+          className="fw-full lex-grow"
           placeholder="Поиск по колодам..."
           emptyMessage="Совпадения не найдены"
         />
-        <SortMenu className="self-end" />
+        <SortMenu className="flex-grow w-full" />
       </div>
 
       <div>
