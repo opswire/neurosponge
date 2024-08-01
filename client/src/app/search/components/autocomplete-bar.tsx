@@ -159,7 +159,7 @@ export const AutoComplete = ({
           ref={inputRef}
           value={inputValue}
           onValueChange={handleValueChange}
-          onFocus={() => setOpen(true)}
+          onFocus={() => inputRef?.current?.value && setOpen(true)}
           onBlur={handleBlur}
           placeholder={placeholder}
           disabled={disabled}
