@@ -1,5 +1,5 @@
 "use server";
-import { Button } from "@/shared";
+import { Button, Separator } from "@/shared";
 import Link from "next/link";
 import { DeckListCarousel } from "../entities/deck/ui/deck-list-carousel";
 import { getAllDecks } from "../entities";
@@ -12,7 +12,8 @@ export default async function Home() {
     <main className="lg:max-w-screen-lg xl:max-w-screen-xl mx-auto">
       <div>
         <section className="mt-24 min-h-[640px]">
-          <div className="flex flex-col gap-12 justify-center items-center pt-8">
+          <Separator />
+          <div className="flex flex-col gap-12 justify-center items-center py-20">
             <h1 className="scroll-m-20 text-4xl text-muted-foreground font-bold tracking-tight lg:text-5xl p-6 text-center">
               Почувстувуй силу своих{" "}
               <span className="text-primary font-extrabold">нейронов</span>
@@ -26,6 +27,7 @@ export default async function Home() {
               интеллекта
             </p>
           </div>
+          <Separator />
         </section>
         <div className="flex flex-col gap-40">
           <section className="flex flex-col gap-12 items-stretch ">
@@ -35,17 +37,23 @@ export default async function Home() {
             <div className="bg-pattern-paper min-h-[640px] flex-auto"></div>
           </section>
           <section className="flex flex-col gap-12 items-center mb-40">
-            <h2 className="w-fit self-center scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">
-              Популярные колоды
-            </h2>
-            <div className="flex flex-col items-center gap-12">
-              <DeckListCarousel decks={decks} />
-              <Link href={"/search"}>
-                <Button className="w-80" variant={"secondary"}>
-                  Посмотреть все
-                </Button>
-              </Link>
-            </div>
+            <Separator />
+
+            {decks.length > 0 && (
+              <>
+                <h2 className="w-fit self-center scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">
+                  Популярные колоды
+                </h2>
+                <div className="flex flex-col items-center gap-12">
+                  <DeckListCarousel decks={decks} />
+                  <Link href={"/search"}>
+                    <Button className="w-80" variant={"secondary"}>
+                      Посмотреть все
+                    </Button>
+                  </Link>
+                </div>
+              </>
+            )}
           </section>
         </div>
       </div>
