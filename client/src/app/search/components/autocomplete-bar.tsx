@@ -177,6 +177,10 @@ export const AutoComplete = ({
             {inputValue && (
               <CommandGroup forceMount heading={`Искать "${inputValue}"`}>
                 <CommandItem
+                  onMouseDown={(event) => {
+                    event.preventDefault();
+                    event.stopPropagation();
+                  }}
                   className="pl-8"
                   value={inputValue}
                   onSelect={handleSelect}
