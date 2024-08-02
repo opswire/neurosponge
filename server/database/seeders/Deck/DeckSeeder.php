@@ -29,7 +29,6 @@ final class DeckSeeder extends Seeder
                 relationship: 'category',
             )
             ->has(factory: Card::factory()->count(50))
-            ->state(['title' => 'Angular'])
             ->create();
     }
 }
