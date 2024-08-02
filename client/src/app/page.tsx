@@ -5,8 +5,8 @@ import { DeckListCarousel } from "../entities/deck/ui/deck-list-carousel";
 import { getAllDecks } from "../entities";
 
 export default async function Home() {
-  const { data: decks } = await getAllDecks({ "filter[is_preview]": true });
-  // const { data: decks } = await getAllDecks();
+  // const { data: decks } = await getAllDecks({ "filter[is_preview]": true });
+  const { data: decks } = await getAllDecks();
 
   return (
     <main className="lg:max-w-screen-lg xl:max-w-screen-xl mx-auto">
