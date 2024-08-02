@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Transformer\Card;
 
-use App\Models\Card\Card;
+use App\Models\Deck\Card\Card;
 use Flugg\Responder\Transformers\Transformer;
 
 final class CardTransformer extends Transformer

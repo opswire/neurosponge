@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Card\Card;
+use App\Models\Deck\Card\Card;
 use App\Models\Deck\Deck;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -11,6 +11,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('card_deck', function (Blueprint $table) {
+            $table->id();
             $table
                 ->foreignId('card_id')
                 ->constrained(Card::getTableName())
@@ -21,8 +22,11 @@ return new class extends Migration
                 ->constrained(Deck::getTableName())
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
+            $table->double('stability_repetition')->default(0.0);
+            $table->double('difficult_repetition')->default(0.0);
+            $table->dateTime('last_time_repetition')->nullable();
 
-            $table->unique(['card_id', 'deck_id']);
+            $table->unique(['card_id']);
         });
     }
 

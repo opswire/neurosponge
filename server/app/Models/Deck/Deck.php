@@ -6,7 +6,7 @@ namespace App\Models\Deck;
 use App\Core\Sorter\Sortable;
 use App\ModelFilter\Deck\DeckFilter;
 use App\Models\AbstractModel;
-use App\Models\Card\Card;
+use App\Models\Deck\Card\Card;
 use App\Models\User\User;
 use Database\Factories\Deck\DeckFactory;
 use DateTime;
@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Query\Builder;
 
 /**
@@ -64,13 +65,12 @@ final class Deck extends AbstractModel
         return DeckFactory::new();
     }
 
-    public function cards(): BelongsToMany
+    public function cards(): HasMany
     {
-        return $this->belongsToMany(
+        return $this->hasMany(
             related: Card::class,
-            table: 'card_deck',
-            foreignPivotKey: 'deck_id',
-            relatedPivotKey: 'card_id',
+            foreignKey: 'deck_id',
+            localKey: 'id',
         );
     }
 

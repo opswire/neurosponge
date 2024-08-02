@@ -2,7 +2,7 @@
 
 namespace Database\Factories\Card;
 
-use App\Models\Card\Card;
+use App\Models\Deck\Card\Card;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 final class CardFactory extends Factory

@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Database\Seeders\Deck;
 
-use App\Models\Card\Card;
+use App\Models\Deck\Card\Card;
 use App\Models\Deck\Deck;
 use App\Models\Deck\DeckCategory;
 use App\Models\User\User;

@@ -21,3 +21,5 @@ rollback:
 # Запустить seeder
 seed:
 	docker compose run --rm sponge.test php artisan db:seed
+
+reload: rollback migrate seed
