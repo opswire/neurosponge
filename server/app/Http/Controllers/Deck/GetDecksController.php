@@ -26,7 +26,7 @@ final readonly class GetDecksController
             ->with(
                 [
                     'author' => static fn (BelongsTo $builder): BelongsTo => $builder
-                        ->select(['id', 'name', 'email'])
+                        ->select(['id', 'email'])
                         ->with(['profile:user_id,name']),
                     'category:id,title,color',
                 ]
