@@ -19,7 +19,6 @@ final class User extends Authenticatable implements JWTSubject
     use HasRoles;
 
     protected $fillable = [
-        'name',
         'email',
         'password',
     ];
