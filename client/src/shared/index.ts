@@ -13,3 +13,5 @@ export * from "./ui/components/ui/command";
 export * from "./ui/components/ui/dialog";
 export * from "./ui/components/ui/popover";
 export * from "./ui/components/ui/skeleton";
+export * from "./ui/components/ui/select";
+export * from "./ui/components/ui/toggle";
