@@ -16,3 +16,4 @@ export * from "./ui/components/ui/skeleton";
 export * from "./ui/components/ui/select";
 export * from "./ui/components/ui/toggle";
 export * from "./ui/components/ui/separator";
+export * from "./ui/components/ui/card";

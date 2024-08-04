@@ -63,6 +63,19 @@ const config = {
         sm: "calc(var(--radius) - 4px)",
       },
       keyframes: {
+        "flashcard-flip": {
+          "0%": {
+            transform: "rotateX(180deg)",
+            opacity: "0",
+          },
+          "60%": {
+            opacity: "0.1",
+          },
+          "100%": {
+            transform: "rotateX(1turn)",
+            opacity: "1",
+          },
+        },
         "accordion-down": {
           from: { height: "0" },
           to: { height: "var(--radix-accordion-content-height)" },
@@ -73,12 +86,16 @@ const config = {
         },
       },
       animation: {
+        "flashcard-flip": "flashcard-flip 0.25s ease-out forwards",
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [
+    require("tailwindcss-animate"),
+    require("@xpd/tailwind-3dtransforms"),
+  ],
 } satisfies Config;
 
 export default config;
