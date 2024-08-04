@@ -12,10 +12,11 @@ import {
 
 import { useEffect, useState } from "react";
 import { Flashcard } from "./flashcard";
+import { CardDTO } from "@/entities";
 
 interface Props {
   className?: string;
-  flashcars: any[];
+  flashcars: CardDTO[];
 }
 export function DeckCarousel({ className, flashcars }: Props) {
   const [carouselApi, setCarouselApi] = useState<CarouselApi>();
@@ -49,8 +50,8 @@ export function DeckCarousel({ className, flashcars }: Props) {
           {flashcars.map((_, index) => (
             <CarouselItem className="grow-1 shrink-1" key={index}>
               <Flashcard
-                cardQuestion={flashcars[index].cardQuestion}
-                cardAnswer={flashcars[index].cardAnswer}
+                cardQuestion={flashcars[index].question}
+                cardAnswer={flashcars[index].answer}
               />
             </CarouselItem>
           ))}

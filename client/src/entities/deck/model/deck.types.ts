@@ -1,8 +1,15 @@
+export type CardDTO = {
+  id: string;
+  question: string;
+  answer: string;
+};
+
 export type DeckDTO = {
   id: string;
   uuid: string;
   title: string;
   cards_count: number;
+  is_preview: boolean;
   author: {
     id: string;
     name: string;
@@ -13,6 +20,7 @@ export type DeckDTO = {
     title: string;
     color: string;
   };
+  cards: CardDTO[];
 };
 
 export enum DeckQueryParamKeys {

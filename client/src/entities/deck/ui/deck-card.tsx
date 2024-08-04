@@ -1,12 +1,16 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import { DeckDTO } from "../model/deck.types";
+import Link from "next/link";
 
 interface Props {
   deck: DeckDTO;
 }
 export const DeckCard = ({ deck }: Props) => {
   return (
-    <div className="min-h-24 min-w-60 flex-auto   hover:bg-muted border hover:border-border bg-card hover:dark:bg-muted  p-8 flex flex-col gap-10 justify-between rounded-md">
+    <Link
+      href={`/deck/${deck.id}`}
+      className="min-h-24 min-w-60 flex-auto   hover:bg-muted border hover:border-border bg-card hover:dark:bg-muted  p-8 flex flex-col gap-10 justify-between rounded-md"
+    >
       <div className="flex flex-col gap-2">
         <h4 className="scroll-m-20 text-xl font-semibold tracking-tight">
           {deck.title}
@@ -26,6 +30,6 @@ export const DeckCard = ({ deck }: Props) => {
         </Avatar>
         <p className="leading-7 text-muted-foreground">{deck.author.name}</p>
       </div>
-    </div>
+    </Link>
   );
 };
