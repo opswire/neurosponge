@@ -47,7 +47,10 @@ export default async function SearchPage({
             <h1 className="text-lg">
               Результаты поиска по{" "}
               <span className="text-lg font-semibold">
-                "{searchParams["filter[search]"]}"
+                "
+                {searchParams["filter[search]"] &&
+                  decodeURIComponent(searchParams["filter[search]"])}
+                "
               </span>
             </h1>
             <div>
