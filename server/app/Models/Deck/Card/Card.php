@@ -100,37 +100,41 @@ final class Card extends AbstractModel
         return [
             self::AGAIN => [
                 'state' => self::LEARNING,
-                'stability' => self::initStability(Card::AGAIN, $weights, $grades),
+                'stability' => 1,
                 'difficulty' => self::initDifficulty(Card::AGAIN, $weights, $grades),
-                'interval_in_minutes' => 1,
+                'interval_in_minutes' => (int)self::nextInterval(1),
                 'interval_in_days' => 0,
                 'lapses' => 0,
             ],
             self::HARD => [
                 'state' => self::LEARNING,
-                'stability' => self::initStability(Card::HARD, $weights, $grades),
+                'stability' => 8,
                 'difficulty' => self::initDifficulty(Card::HARD, $weights, $grades),
-                'interval_in_minutes' => 5,
+                'interval_in_minutes' => (int)self::nextInterval(8),
                 'interval_in_days' => 0,
                 'lapses' => 0,
             ],
             self::GOOD => [
                 'state' => self::LEARNING,
-                'stability' => self::initStability(Card::GOOD, $weights, $grades),
+                'stability' => 30,
                 'difficulty' => self::initDifficulty(Card::GOOD, $weights, $grades),
-                'interval_in_minutes' => 10,
+                'interval_in_minutes' => (int)self::nextInterval(30),
                 'interval_in_days' => 0,
                 'lapses' => 0,
             ],
             self::EASY => [
                 'state' => self::REVIEW,
-                'stability' => self::initStability(Card::EASY, $weights, $grades),
+                'stability' => 1200,
                 'difficulty' => self::initDifficulty(Card::EASY, $weights, $grades),
-                'interval_in_minutes' => 0,
-                'interval_in_days' => (int)self::nextInterval(self::initStability(Card::EASY, $weights, $grades)),
+                'interval_in_minutes' => (int)self::nextInterval(1200),
+                'interval_in_days' => 0,
                 'lapses' => 0,
             ],
         ];
+    }
+
+    public function calculateAlgorithm(bool $is_know)
+    {
     }
 
     public static function initStability(string $rating, array $weights, array $grades)
@@ -159,7 +163,8 @@ final class Card extends AbstractModel
         $decay = $config->get('Deck.repetition.algorithm.decay');
         $maximumInterval = $config->get('Deck.repetition.algorithm.maximumInterval');
 
-        $newInterval = $stability / $factor * (pow($requestRetention, 1 / $decay) - 1);
+//        $newInterval = $stability / $factor * (pow($requestRetention, 1 / $decay) - 1);
+        $newInterval = $stability / $factor;
 
         return max(min(round($newInterval), $maximumInterval), 1);
     }

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Action\Deck\Repetition;
 
+use App\DTO\Deck\Repetition\input\InputRepeatCardDTO;
 use App\Models\Deck\Card\Card;
 use Carbon\CarbonInterface;
 use Illuminate\Config\Repository as ConfigRepository;
@@ -27,12 +28,13 @@ final readonly class RepeatCardAction
         $this->now = $this->dateFactory->now()->toImmutable();
     }
 
-    public function execute(int $id, string $rating): Card
+    public function execute(InputRepeatCardDTO $dto): Card
     {
         /** @var Card $card */
-        $card = Card::query()->findOrFail($id);
+        $card = Card::query()->findOrFail($dto->cardId);
+        dump($card->scheduling_cards_log);
 
-        $this->changeCardByRating($card, $rating);
+        $this->changeCardByRating($card, $dto->rating);
         $schedulingCardsLog = $this->repeat($card);
         $card->scheduling_cards_log = $schedulingCardsLog;
         $card->save();
@@ -58,12 +60,11 @@ final readonly class RepeatCardAction
         switch ($card->state) {
             case Card::LEARNING:
             case Card::RELEARNING:
-                $hardInterval = 0;
+                $againInterval = Card::nextInterval($schedulingCardsLog[Card::AGAIN]['stability']);
+                $hardInterval = Card::nextInterval($schedulingCardsLog[Card::HARD]['stability']);
                 $goodInterval = Card::nextInterval($schedulingCardsLog[Card::GOOD]['stability']);
-                $easyInterval = max(
-                    Card::nextInterval($schedulingCardsLog[Card::EASY]['stability']), $goodInterval + 1
-                );
-                $this->schedule($schedulingCardsLog, $hardInterval, $goodInterval, $easyInterval);
+                $easyInterval = Card::nextInterval($schedulingCardsLog[Card::EASY]['stability']);
+                $this->schedule($schedulingCardsLog, $againInterval, $hardInterval, $goodInterval, $easyInterval);
                 break;
             case Card::REVIEW:
                 $elapsedDays = ($card->due->timestamp - $card->last_review_time->timestamp) / (60 * 60 * 24); // due
@@ -71,15 +72,13 @@ final readonly class RepeatCardAction
                 $schedulingCardsLog = $this->nextSchedulingStabilityAndDifficulty(
                     $schedulingCardsLog, $card->difficulty, $card->stability, $retrievability
                 );
+                $againInterval = Card::nextInterval($schedulingCardsLog[Card::AGAIN]['stability']);
                 $hardInterval = Card::nextInterval($schedulingCardsLog[Card::HARD]['stability']);
                 $goodInterval = Card::nextInterval($schedulingCardsLog[Card::GOOD]['stability']);
-                $hardInterval = min($hardInterval, $goodInterval);
-                $goodInterval = max($goodInterval, $hardInterval + 1);
-                $easyInterval = max(
-                    Card::nextInterval($schedulingCardsLog[Card::EASY]['stability']), $goodInterval + 1
-                );
+                $easyInterval = Card::nextInterval($schedulingCardsLog[Card::EASY]['stability']);
                 $schedulingCardsLog = $this->schedule(
                     $schedulingCardsLog,
+                    $againInterval,
                     $hardInterval,
                     $goodInterval,
                     $easyInterval,
@@ -125,19 +124,21 @@ final readonly class RepeatCardAction
 
     public function schedule(
         array $schedulingCardsLog,
+        float $againInterval,
         float $hardInterval,
         float $goodInterval,
         float $easyInterval
     ): array {
         $schedulingCardsLog[Card::AGAIN]['interval_in_days'] = 0;
-        $schedulingCardsLog[Card::HARD]['interval_in_days'] = round($hardInterval);
-        $schedulingCardsLog[Card::GOOD]['interval_in_days'] = round($goodInterval);
-        $schedulingCardsLog[Card::EASY]['interval_in_days'] = round($easyInterval);
-        $schedulingCardsLog[Card::AGAIN]['interval_in_minutes'] = 5;
-        $schedulingCardsLog[Card::HARD]['interval_in_minutes'] = 0;
-        $schedulingCardsLog[Card::GOOD]['interval_in_minutes'] = 0;
-        $schedulingCardsLog[Card::EASY]['interval_in_minutes'] = 0;
+        $schedulingCardsLog[Card::HARD]['interval_in_days'] = 0;
+        $schedulingCardsLog[Card::GOOD]['interval_in_days'] = 0;
+        $schedulingCardsLog[Card::EASY]['interval_in_days'] = 0;
+        $schedulingCardsLog[Card::AGAIN]['interval_in_minutes'] = $againInterval;
+        $schedulingCardsLog[Card::HARD]['interval_in_minutes'] = $hardInterval;
+        $schedulingCardsLog[Card::GOOD]['interval_in_minutes'] = $goodInterval;
+        $schedulingCardsLog[Card::EASY]['interval_in_minutes'] = $easyInterval;
 
+        dd($schedulingCardsLog);
         return $schedulingCardsLog;
     }
 
@@ -162,22 +163,26 @@ final readonly class RepeatCardAction
         float $retrievability,
     ): array {
         $schedulingCardsLog[Card::AGAIN]['difficulty'] = $this->nextDifficulty($lastD, Card::AGAIN);
-        $schedulingCardsLog[Card::AGAIN]['stability'] = $this->nextForgetStability($lastD, $lastS, $retrievability);
+//        $schedulingCardsLog[Card::AGAIN]['stability'] = $this->nextForgetStability($lastD, $lastS, $retrievability);
+        $schedulingCardsLog[Card::AGAIN]['stability'] = $this->nextStability($lastS, $this->grades[Card::AGAIN]);
 
         $schedulingCardsLog[Card::HARD]['difficulty'] = $this->nextDifficulty($lastD, Card::HARD);
         $schedulingCardsLog[Card::HARD]['stability'] = $this->nextRecallStability(
             $lastD, $lastS, $retrievability, Card::HARD
         );
+//        $schedulingCardsLog[Card::HARD]['stability'] = $this->nextStability($lastS, $this->grades[Card::HARD]);
 
         $schedulingCardsLog[Card::GOOD]['difficulty'] = $this->nextDifficulty($lastD, Card::GOOD);
         $schedulingCardsLog[Card::GOOD]['stability'] = $this->nextRecallStability(
             $lastD, $lastS, $retrievability, Card::GOOD
         );
+//        $schedulingCardsLog[Card::GOOD]['stability'] = $this->nextStability($lastS, $this->grades[Card::GOOD]);
 
         $schedulingCardsLog[Card::EASY]['difficulty'] = $this->nextDifficulty($lastD, Card::EASY);
         $schedulingCardsLog[Card::EASY]['stability'] = $this->nextRecallStability(
             $lastD, $lastS, $retrievability, Card::EASY
         );
+//        $schedulingCardsLog[Card::EASY]['stability'] = $this->nextStability($lastS, $this->grades[Card::EASY]);
 
         return $schedulingCardsLog;
     }
@@ -205,7 +210,6 @@ final readonly class RepeatCardAction
         $easyBonus = $rating === Card::EASY ? $this->weights[16] : 1;
 
         return $stability * (1 + exp($this->weights[8]) * (11 - $difficulty) * pow($stability, -$this->weights[9])
-                * (exp((1 - $r) * $this->weights[10]) - 1)
                 * $hardPenalty * $easyBonus);
     }
 
@@ -216,5 +220,10 @@ final readonly class RepeatCardAction
                 ) - 1) * exp(
                 (1 - $r) * $this->weights[14]
             );
+    }
+
+    public function nextStability(float $lastStability, float $rating): float
+    {
+        return $lastStability * exp($this->weights[17] * ($rating - 3.0 + $this->weights[18]));
     }
 }
