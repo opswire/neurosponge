@@ -46,15 +46,8 @@ export async function getAllDecks(
 export async function getDeckById(
   id: string
 ): Promise<{ status: number; success: boolean; data: DeckDTO }> {
-  console.log(HOST_URL + "/deck/" + id);
   const res = await fetch(HOST_URL + "/deck/" + id);
   if (!res.ok) {
-    console.log(res.body);
-    console.log(res.headers);
-    console.log(res);
-    console.log(res.ok);
-    console.log(res.status);
-    console.log(res.statusText);
     // This will activate the closest `error.js` Error Boundary
     throw new Error("Failed to fetch data");
   } else {
