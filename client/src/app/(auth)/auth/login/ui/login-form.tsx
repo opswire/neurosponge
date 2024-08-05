@@ -9,6 +9,7 @@ import {
   FormMessage,
   Input,
   Form,
+  PasswordInput,
 } from "@/shared";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Octagon } from "lucide-react";
@@ -20,12 +21,13 @@ import Image from "next/image";
 import Link from "next/link";
 
 const formSchema = z.object({
-  username: z.string().min(3, {
-    message: "Имя пользователя должно содержать не менее 3 символов.",
-  }),
-  email: z.string().email({
-    message: "Необходимо ввести действительную почту.",
-  }),
+  email: z
+    .string()
+    .min(1, { message: "Поле обязательно для заполнения" })
+    .email({
+      message: "Необходимо ввести действительную почту.",
+    }),
+  password: z.string().min(1, { message: "Поле обязательно для заполнения" }),
 });
 
 export function LoginForm() {
@@ -33,8 +35,8 @@ export function LoginForm() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      username: "",
       email: "",
+      password: "",
     },
   });
 
@@ -54,19 +56,6 @@ export function LoginForm() {
       >
         <FormField
           control={form.control}
-          name="username"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Имя пользователя</FormLabel>
-              <FormControl>
-                <Input disabled={isLoading} placeholder="Марсель" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
           name="email"
           render={({ field }) => (
             <FormItem>
@@ -77,6 +66,19 @@ export function LoginForm() {
                   placeholder="marcel@example.com"
                   {...field}
                 />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="password"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Пароль</FormLabel>
+              <FormControl>
+                <PasswordInput placeholder="yOurStrongP@ssw0rd" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

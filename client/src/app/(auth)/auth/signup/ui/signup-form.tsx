@@ -9,6 +9,7 @@ import {
   FormMessage,
   Input,
   Form,
+  PasswordInput,
 } from "@/shared";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Octagon } from "lucide-react";
@@ -23,19 +24,19 @@ import Link from "next/link";
 const passwordSchema = z
   .string()
   .min(8, { message: "Пароль должен содержать не менее 8 символов" })
-  .max(20, { message: "Пароль должен содержать не более 20 символов" })
-  .refine((password) => /[A-Z]/.test(password), {
-    message: "Пароль должен содержать хотя бы одну заглавную букву",
-  })
-  .refine((password) => /[a-z]/.test(password), {
-    message: "Пароль должен содержать хотя бы одну строчную букву",
-  })
-  .refine((password) => /[0-9]/.test(password), {
-    message: "Пароль должен содержать хотя бы одну цифру",
-  })
-  .refine((password) => /[!@#$%^&*]/.test(password), {
-    message: "Пароль должен содержать хотя бы один специальный символ",
-  });
+  .max(20, { message: "Пароль должен содержать не более 20 символов" });
+// .refine((password) => /[A-Z]/.test(password), {
+//   message: "Пароль должен содержать хотя бы одну заглавную букву",
+// })
+// .refine((password) => /[a-z]/.test(password), {
+//   message: "Пароль должен содержать хотя бы одну строчную букву",
+// })
+// .refine((password) => /[0-9]/.test(password), {
+//   message: "Пароль должен содержать хотя бы одну цифру",
+// })
+// .refine((password) => /[!@#$%^&*]/.test(password), {
+//   message: "Пароль должен содержать хотя бы один специальный символ",
+// });
 
 const formSchema = z
   .object({
@@ -112,11 +113,7 @@ export function SignupForm() {
             <FormItem>
               <FormLabel>Пароль</FormLabel>
               <FormControl>
-                <Input
-                  type="password"
-                  placeholder="yOurStrongP@ssw0rd"
-                  {...field}
-                />
+                <PasswordInput placeholder="yOurStrongP@ssw0rd" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -129,7 +126,7 @@ export function SignupForm() {
             <FormItem>
               <FormLabel>Повторите пароль</FormLabel>
               <FormControl>
-                <Input placeholder="yOurStrongP@ssw0rd" {...field} />
+                <PasswordInput placeholder="yOurStrongP@ssw0rd" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
