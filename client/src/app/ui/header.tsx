@@ -57,7 +57,9 @@ export const Header = () => {
           </div>
         </div>
         <div className="hidden sm:flex gap-4">
-          <Button>Войти</Button>
+          <Button asChild>
+            <Link href={"/auth/login"}>Войти</Link>
+          </Button>
           <ModeToggle />
         </div>
         <div className="sm:hidden flex items-center">
@@ -90,7 +92,10 @@ export const Header = () => {
                   </Button>
                 </div>
                 <div className="flex  gap-4">
-                  <Button>Войти</Button>
+                  <Button asChild>
+                    <Link href={"/auth/login"}>Войти</Link>
+                  </Button>
+
                   <ModeToggle />
                 </div>
               </div>
