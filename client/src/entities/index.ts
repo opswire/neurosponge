@@ -1,3 +1,3 @@
-export { DeckQueryParamKeys } from "./deck";
+export { DeckQueryParamKeys, DeckListCarousel } from "./deck";
 
 export * from "./deck";

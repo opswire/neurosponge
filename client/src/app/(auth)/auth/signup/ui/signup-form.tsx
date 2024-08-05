@@ -18,6 +18,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import GoogleIcon from "@/shared/ui/assets/google_web.svg";
+import Link from "next/link";
 
 const passwordSchema = z
   .string()
@@ -134,7 +135,7 @@ export function SignupForm() {
             </FormItem>
           )}
         />
-        <div className="w-full flex justify-center">
+        <div className="w-full flex-col items-center justify-center">
           <Button
             disabled={isLoading}
             className="min-w-40 w-full"
@@ -143,6 +144,16 @@ export function SignupForm() {
             {isLoading && <Octagon className="mr-2 h-4 w-4 animate-spin" />}
             Создать аккаунт
           </Button>
+          <div className="flex gap-2 items-center justify-center ">
+            <Button className="p-0 underline" variant="link" asChild>
+              <Link
+                href={"/auth/login"}
+                className="text-xs text-muted-foreground underline"
+              >
+                Уже есть аккаунт?
+              </Link>
+            </Button>
+          </div>
         </div>
 
         <div className="relative">

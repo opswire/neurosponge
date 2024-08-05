@@ -1,8 +1,8 @@
 "use server";
 import { Button, Separator } from "@/shared";
 import Link from "next/link";
-import { DeckListCarousel } from "../entities/deck/ui/deck-list-carousel";
-import { getAllDecks } from "../entities";
+import { DeckListCarousel } from "@/entities";
+import { getAllDecks } from "@/entities";
 
 export default async function Home() {
   // const { data: decks } = await getAllDecks({ "filter[is_preview]": true });

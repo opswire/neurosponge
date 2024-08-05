@@ -17,6 +17,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import GoogleIcon from "@/shared/ui/assets/google_web.svg";
 import Image from "next/image";
+import Link from "next/link";
 
 const formSchema = z.object({
   username: z.string().min(3, {
@@ -82,16 +83,7 @@ export function LoginForm() {
           )}
         />
 
-        {/* <div className="flex gap-4 items-center ">
-          <p className="text-sm">Еще нет аккаунта?</p>
-          <Button className="p-0 underline" variant="link" asChild>
-            <Link href={"/auth/signup"} className="text-sm">
-              Создать аккаунт
-            </Link>
-          </Button>
-        </div> */}
-
-        <div className="w-full flex justify-center">
+        <div className="w-full flex flex-col items-center justify-center">
           <Button
             disabled={isLoading}
             className="min-w-40 w-full"
@@ -100,7 +92,18 @@ export function LoginForm() {
             {isLoading && <Octagon className="mr-2 h-4 w-4 animate-spin" />}
             Войти
           </Button>
+          <div className="flex gap-2 items-center justify-center ">
+            <Button className="p-0 underline" variant="link" asChild>
+              <Link
+                href={"/auth/signup"}
+                className="text-xs text-muted-foreground underline"
+              >
+                Еще нет аккаунта?
+              </Link>
+            </Button>
+          </div>
         </div>
+
         <div className="relative">
           <div className="absolute inset-0 flex items-center">
             <span className="w-full border-t" />
