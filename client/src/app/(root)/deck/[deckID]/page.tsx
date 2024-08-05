@@ -3,13 +3,31 @@
 import { getDeckById } from "@/entities";
 import { DeckCarousel } from "./ui/deck-carousel";
 
+import { Metadata } from "next";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { deckID: string };
+}): Promise<Metadata> {
+  const id = params.deckID;
+
+  const {
+    data: { title },
+  } = await getDeckById(params.deckID);
+
+  return {
+    title: title,
+  };
+}
+
 export default async function DeckPage({
   params,
 }: {
   params: { deckID: string };
 }) {
   const {
-    data: { cards },
+    data: { cards, title },
   } = await getDeckById(params.deckID);
 
   const progress = 20;

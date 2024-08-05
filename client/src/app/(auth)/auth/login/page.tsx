@@ -1,7 +1,10 @@
-import { Button } from "@/shared";
 import { LoginForm } from "./ui/login-form";
-import Link from "next/link";
-import { Cross, X } from "lucide-react";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Login",
+  description: "Форма входа в аккаунт",
+};
 export default function LoginPage() {
   return (
     <div className="flex w-full flex-col items-center justify-center sm:w-[350px] lg:w-[600px]">

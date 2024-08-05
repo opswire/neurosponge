@@ -2,8 +2,6 @@ import { Metadata } from "next";
 import Link from "next/link";
 
 import { SignupForm } from "./ui/signup-form";
-import { Button } from "@/shared";
-
 export const metadata: Metadata = {
   title: "Sign Up",
   description: "Форма создания нового аккаунта",

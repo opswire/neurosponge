@@ -1,5 +1,3 @@
-"use server";
-
 import {
   DeckDTO,
   DeckList,
@@ -8,7 +6,12 @@ import {
 } from "@/entities";
 import { AutoComplete } from "./components/autocomplete-bar";
 import { SortMenu } from "./components/sort-menu";
-import { Separator } from "@/shared";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Search",
+  description: "Страница поиска по колодам карточек",
+};
 export default async function SearchPage({
   searchParams,
 }: {
