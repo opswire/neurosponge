@@ -20,7 +20,7 @@ final readonly class RegisterUserController
     public function __invoke(InputRegisterUserDTO $dto): JsonResponse
     {
         try {
-            $user = $this->action->execute($dto);
+            $data = $this->action->execute($dto);
         } catch (ConflictHttpException $e) {
             return $this
                 ->responder
@@ -30,7 +30,12 @@ final readonly class RegisterUserController
 
         return $this
             ->responder
-            ->success($user, new UserTransformer())
+            ->success($data['user'], new UserTransformer())
+            ->meta([
+                'meta' => [
+                    'token' => $data['token']
+                ],
+            ])
             ->with([
                 'profile:id,name',
                 'roles:id,name,display_name'

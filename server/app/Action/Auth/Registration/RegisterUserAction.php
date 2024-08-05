@@ -6,6 +6,7 @@ namespace App\Action\Auth\Registration;
 use App\DTO\Auth\Registration\input\InputRegisterUserDTO;
 use App\Models\Common\Roles\Role;
 use App\Models\User\User;
+use Illuminate\Auth\AuthManager;
 use Illuminate\Database\DatabaseManager;
 use Illuminate\Hashing\HashManager;
 use Psr\Log\LoggerInterface;
@@ -17,6 +18,7 @@ final readonly class RegisterUserAction
 {
     public function __construct(
         private DatabaseManager $databaseManager,
+        private AuthManager $authManager,
         private HashManager $hashManager,
         private LoggerInterface $logger,
     ) {}
@@ -24,20 +26,20 @@ final readonly class RegisterUserAction
     /**
      * @throws ConflictHttpException
      */
-    public function execute(InputRegisterUserDTO $dto): User
+    public function execute(InputRegisterUserDTO $dto): array
     {
         if (User::query()->where(User::getTableName() . '.email', '=', $dto->email)->exists()) {
             throw new ConflictHttpException(message: 'User with this email already exists.', code: 409);
         }
 
         try {
-            return $this
+            $user = $this
                 ->databaseManager
                 ->transaction(
                     function () use ($dto) {
+                        /** @var User $user */
                         $user = User::query()->create(
                             [
-                                'name' => 'default', // Todo: default
                                 'email' => $dto->email,
                                 'password' => $this->hashManager->make($dto->password),
                             ]
@@ -52,6 +54,10 @@ final readonly class RegisterUserAction
                         return $user;
                     }
                 );
+
+            $token = $this->authManager->login($user);
+
+            return ['user' => $user, 'token' => $token];
         } catch (Throwable $e) {
             $this
                 ->logger
