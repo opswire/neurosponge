@@ -8,6 +8,7 @@ use App\DTO\Auth\Registration\input\InputRegisterUserDTO;
 use App\Transformer\User\UserTransformer;
 use Flugg\Responder\Responder;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Cookie;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 
 final readonly class RegisterUserController
@@ -27,6 +28,8 @@ final readonly class RegisterUserController
                 ->error($e->getCode(), $e->getMessage())
                 ->respond($e->getCode());
         }
+
+        Cookie::queue(Cookie::make('token', $data['token'], 3600));
 
         return $this
             ->responder

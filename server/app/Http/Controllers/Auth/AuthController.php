@@ -9,6 +9,7 @@ use Flugg\Responder\Responder;
 use Illuminate\Auth\AuthManager;
 use Illuminate\Config\Repository as ConfigRepository;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Cookie;
 
 final class AuthController extends Controller
 {
@@ -38,6 +39,8 @@ final class AuthController extends Controller
         }
 
         assert(is_string($token));
+
+        Cookie::queue(Cookie::make('token', $token, 3600));
 
         return $this->respondWithToken($token);
     }
