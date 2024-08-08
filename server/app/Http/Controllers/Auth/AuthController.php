@@ -9,7 +9,6 @@ use Flugg\Responder\Responder;
 use Illuminate\Auth\AuthManager;
 use Illuminate\Config\Repository as ConfigRepository;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Cookie;
 
 final class AuthController extends Controller
 {
@@ -40,8 +39,6 @@ final class AuthController extends Controller
 
         assert(is_string($token));
 
-        Cookie::queue(Cookie::make('token', $token, 3600));
-
         return $this->respondWithToken($token);
     }
 
@@ -60,8 +57,7 @@ final class AuthController extends Controller
      */
     public function logout(): JsonResponse
     {
-        $this->authManager->logout(true);
-        auth()->logout();
+        $this->authManager->logout();
 
         return $this->responder
             ->success(['message' => 'Successfully logged out'])
@@ -73,7 +69,13 @@ final class AuthController extends Controller
      */
     public function refresh(): JsonResponse
     {
-        return $this->respondWithToken($this->authManager->refresh());
+        $token = $this->authManager->refresh();
+
+        if (!$token) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
+        return $this->respondWithToken($token);
     }
 
     protected function respondWithToken(string $token): JsonResponse
