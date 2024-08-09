@@ -33,7 +33,8 @@ final readonly class RegisterUserController
             ->success($data['user'], new UserTransformer())
             ->meta([
                 'meta' => [
-                    'token' => $data['token']
+                    'access_token' => $data['token'],
+                    'expires_in' => 259200,
                 ],
             ])
             ->with([
