@@ -5,7 +5,7 @@ import { Command as CommandPrimitive } from "cmdk";
 import { useState, useRef, useCallback, type KeyboardEvent } from "react";
 
 import { Search } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/";
 import { DeckQueryParamKeys, getDeckSuggestions } from "@/entities";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useDebouncedCallback } from "use-debounce";

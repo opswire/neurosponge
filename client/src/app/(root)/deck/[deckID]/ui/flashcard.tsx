@@ -1,5 +1,5 @@
 "use client";
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/";
 import { Button, Card, CardContent, CardFooter, CardHeader } from "@/shared";
 import { Lightbulb, Star, Volume2 } from "lucide-react";
 import { useState } from "react";

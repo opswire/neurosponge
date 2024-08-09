@@ -1,6 +1,7 @@
 //lib export
 export * from "./lib/resolve-host-url";
 export * from "./lib/use-window-size";
+export * from "./lib/cn";
 
 //ui components export
 export * from "./ui/components/ui/avatar";
