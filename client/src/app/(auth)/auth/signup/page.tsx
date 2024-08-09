@@ -20,7 +20,7 @@ export default function SignupPage() {
       </div>
       <SignupForm />
       <p className="px-8 text-center text-sm text-muted-foreground">
-        Нажимая "Создать аккаунт", вы соглашаетесь с нашими{" "}
+        Нажимая &quot;Создать аккаунт&quot;, вы соглашаетесь с нашими{" "}
         <Link
           href="/terms"
           className="underline underline-offset-4 hover:text-primary"

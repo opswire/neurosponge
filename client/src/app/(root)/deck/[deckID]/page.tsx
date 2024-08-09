@@ -1,9 +1,15 @@
 "use server";
 
-import { getDeckById } from "@/entities";
+import { getAllDecks, getDeckById } from "@/entities";
 import { DeckCarousel } from "./ui/deck-carousel";
 
 import { Metadata } from "next";
+
+export async function generateStaticParams() {
+  const { data: decks } = await getAllDecks();
+
+  return decks.map((deck) => ({ deckID: deck.id.toString() }));
+}
 
 export async function generateMetadata({
   params,
@@ -35,7 +41,7 @@ export default async function DeckPage({
     <div className="flex min-h-screen flex-col items-center mt-20 lg:mt-40">
       <div className="flex flex-col items-center w-full max-w-[580px]  sm:max-w-screen-[580px] lg:max-w-screen-sm px-6 gap-4">
         <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
-          Angular
+          {title}
         </h3>
         <DeckCarousel
           className="w-full flex flex-col gap-4"
