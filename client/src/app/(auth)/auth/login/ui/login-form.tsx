@@ -10,15 +10,20 @@ import {
   Input,
   Form,
   PasswordInput,
+  login,
+  Alert,
+  AlertTitle,
+  AlertDescription,
 } from "@/shared";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Octagon } from "lucide-react";
+import { LogIn, Octagon } from "lucide-react";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import { z } from "zod";
 import GoogleIcon from "@/shared/ui/assets/google_web.svg";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   email: z
@@ -31,7 +36,9 @@ const formSchema = z.object({
 });
 
 export function LoginForm() {
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -43,9 +50,26 @@ export function LoginForm() {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
 
-    setTimeout(() => {
+    setTimeout(async () => {
+      const result = await login(values.email, values.password);
+      if (result)
+        if (!result?.success) {
+          form.setError("email", {
+            type: "custom",
+            message: result.message,
+          });
+          form.setError("password", {
+            type: "custom",
+            message: result.message,
+          });
+        } else {
+          setSuccess(true);
+          setTimeout(() => {
+            router.back();
+          }, 450);
+        }
       setIsLoading(false);
-    }, 3000);
+    }, 450);
   }
 
   return (
@@ -78,7 +102,11 @@ export function LoginForm() {
             <FormItem>
               <FormLabel>Пароль</FormLabel>
               <FormControl>
-                <PasswordInput placeholder="yOurStrongP@ssw0rd" {...field} />
+                <PasswordInput
+                  disabled={isLoading}
+                  placeholder="yOurStrongP@ssw0rd"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -86,18 +114,28 @@ export function LoginForm() {
         />
 
         <div className="w-full flex flex-col items-center justify-center">
-          <Button
-            disabled={isLoading}
-            className="min-w-40 w-full"
-            type="submit"
-          >
-            {isLoading && <Octagon className="mr-2 h-4 w-4 animate-spin" />}
-            Войти
-          </Button>
+          {success ? (
+            <Alert variant="success">
+              <LogIn className="h-4 w-4" />
+
+              <AlertTitle>Вход выполнен</AlertTitle>
+            </Alert>
+          ) : (
+            <Button
+              disabled={isLoading}
+              className="min-w-40 w-full"
+              type="submit"
+            >
+              {isLoading && <Octagon className="mr-2 h-4 w-4 animate-spin" />}
+              Войти
+            </Button>
+          )}
+
           <div className="flex gap-2 items-center justify-center ">
             <Button className="p-0 underline" variant="link" asChild>
               <Link
                 href={"/auth/signup"}
+                replace
                 className="text-xs text-muted-foreground underline"
               >
                 Еще нет аккаунта?

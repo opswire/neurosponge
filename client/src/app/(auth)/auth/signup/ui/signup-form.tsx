@@ -10,9 +10,12 @@ import {
   Input,
   Form,
   PasswordInput,
+  register,
+  Alert,
+  AlertTitle,
 } from "@/shared";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Octagon } from "lucide-react";
+import { LogIn, Octagon } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -20,6 +23,7 @@ import { z } from "zod";
 
 import GoogleIcon from "@/shared/ui/assets/google_web.svg";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const passwordSchema = z
   .string()
@@ -38,40 +42,43 @@ const passwordSchema = z
 //   message: "Пароль должен содержать хотя бы один специальный символ",
 // });
 
-const formSchema = z
-  .object({
-    username: z.string().min(3, {
-      message: "Имя пользователя должно содержать не менее 3 символов.",
-    }),
-    email: z.string().email({
-      message: "Необходимо ввести действительную почту.",
-    }),
-    password: passwordSchema,
-    confirmPassword: z.string(),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "Пароли не совпадают",
-    path: ["confirmPassword"],
-  });
+const formSchema = z.object({
+  email: z.string().email({
+    message: "Необходимо ввести действительную почту.",
+  }),
+  password: passwordSchema,
+});
 
 export function SignupForm() {
+  const router = useRouter();
+  const [success, setSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      username: "",
       email: "",
       password: "",
-      confirmPassword: "",
     },
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
 
-    setTimeout(() => {
+    setTimeout(async () => {
+      const result = await register(values.email, values.password);
+      if (!result.success) {
+        form.setError("email", {
+          type: "custom",
+          message: result.message,
+        });
+      } else {
+        setSuccess(true);
+        setTimeout(() => {
+          router.back();
+        }, 450);
+      }
       setIsLoading(false);
-    }, 3000);
+    }, 450);
   }
 
   return (
@@ -82,25 +89,16 @@ export function SignupForm() {
       >
         <FormField
           control={form.control}
-          name="username"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Имя пользователя</FormLabel>
-              <FormControl>
-                <Input placeholder="Марсель" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
           name="email"
           render={({ field }) => (
             <FormItem>
               <FormLabel>E-mail</FormLabel>
               <FormControl>
-                <Input placeholder="marcel@example.com" {...field} />
+                <Input
+                  disabled={isLoading}
+                  placeholder="marcel@example.com"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -113,38 +111,39 @@ export function SignupForm() {
             <FormItem>
               <FormLabel>Пароль</FormLabel>
               <FormControl>
-                <PasswordInput placeholder="yOurStrongP@ssw0rd" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="confirmPassword"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Повторите пароль</FormLabel>
-              <FormControl>
-                <PasswordInput placeholder="yOurStrongP@ssw0rd" {...field} />
+                <PasswordInput
+                  disabled={isLoading}
+                  placeholder="yOurStrongP@ssw0rd"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
         <div className="w-full flex-col items-center justify-center">
-          <Button
-            disabled={isLoading}
-            className="min-w-40 w-full"
-            type="submit"
-          >
-            {isLoading && <Octagon className="mr-2 h-4 w-4 animate-spin" />}
-            Создать аккаунт
-          </Button>
+          {success ? (
+            <Alert variant="success">
+              <LogIn className="h-4 w-4" />
+
+              <AlertTitle>Вход выполнен</AlertTitle>
+            </Alert>
+          ) : (
+            <Button
+              disabled={isLoading}
+              className="min-w-40 w-full"
+              type="submit"
+            >
+              {isLoading && <Octagon className="mr-2 h-4 w-4 animate-spin" />}
+              Создать аккаунт
+            </Button>
+          )}
+
           <div className="flex gap-2 items-center justify-center ">
             <Button className="p-0 underline" variant="link" asChild>
               <Link
                 href={"/auth/login"}
+                replace
                 className="text-xs text-muted-foreground underline"
               >
                 Уже есть аккаунт?

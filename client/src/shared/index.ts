@@ -22,3 +22,6 @@ export * from "./ui/components/ui/label";
 export * from "./ui/components/ui/input";
 export * from "./ui/components/ui/form";
 export * from "./ui/components/ui/password-input";
+export * from "./ui/components/ui/alert";
+
+export * from "./api/auth/actions";
