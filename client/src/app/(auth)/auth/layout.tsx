@@ -44,7 +44,7 @@ export default function AuthLayout({
             <X className="h-8 w-8" />
           </Link>
         </Button>
-        <div className="flex w-full flex-col items-center justify-center sm:w-[350px] md:w-[600px]">
+        <div className="flex w-full flex-col items-center justify-center sm:w-[350px] md:max-w-[600px] lg:min-w-[600px]">
           {children}
         </div>
       </div>

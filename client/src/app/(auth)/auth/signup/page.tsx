@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function SignupPage() {
   return (
-    <div className="flex w-full flex-col items-center justify-center sm:w-[350px] lg:w-[600px]">
+    <>
       <div className="flex flex-col space-y-2 text-center">
         <h1 className="text-2xl font-semibold tracking-tight">
           Создать аккаунт
@@ -36,6 +36,6 @@ export default function SignupPage() {
         </Link>
         .
       </p>
-    </div>
+    </>
   );
 }
