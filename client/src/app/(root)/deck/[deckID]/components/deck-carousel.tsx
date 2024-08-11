@@ -18,7 +18,7 @@ interface Props {
   className?: string;
   flashcars: CardDTO[];
 }
-export function DeckCarousel({ className, flashcars }: Props) {
+export function FlashcardCarousel({ className, flashcars }: Props) {
   const [carouselApi, setCarouselApi] = useState<CarouselApi>();
   const [currentIndex, setCurrentIndex] = useState(0.05);
 

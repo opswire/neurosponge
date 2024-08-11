@@ -1,7 +1,7 @@
 "use server";
 
 import { getAllDecks, getDeckById } from "@/entities";
-import { DeckCarousel } from "./ui/deck-carousel";
+import { FlashcardCarousel } from "./components/deck-carousel";
 
 import { Metadata } from "next";
 
@@ -43,7 +43,7 @@ export default async function DeckPage({
         <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
           {title}
         </h3>
-        <DeckCarousel
+        <FlashcardCarousel
           className="w-full flex flex-col gap-4"
           flashcars={cards}
         />

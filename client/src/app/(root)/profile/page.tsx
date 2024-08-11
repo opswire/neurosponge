@@ -1,6 +1,6 @@
 import { getUser } from "@/shared";
 import { redirect } from "next/navigation";
-import LogoutButton from "./logout-button";
+import LogoutButton from "./components/logout-button";
 
 export default async function ProfilePage() {
   const user = await getUser();
