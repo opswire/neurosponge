@@ -36,7 +36,7 @@ export default async function Home() {
             </h2>
             <div className="bg-pattern-paper min-h-[640px] flex-auto"></div>
           </section>
-          <section className="flex flex-col gap-12 items-center mb-40">
+          <section className="flex flex-col gap-12 items-center px-4 mb-40">
             <Separator />
 
             {decks.length > 0 && (
@@ -44,13 +44,19 @@ export default async function Home() {
                 <h2 className="w-fit self-center scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">
                   Популярные колоды
                 </h2>
-                <div className="flex flex-col items-center gap-12">
-                  <DeckListCarousel decks={decks} />
-                  <Link href={"/search"}>
-                    <Button className="w-80" variant={"secondary"}>
-                      Посмотреть все
-                    </Button>
-                  </Link>
+                <div className="flex flex-col w-full items-center gap-12 ">
+                  <DeckListCarousel
+                    className="w-full flex flex-col items-center gap-12"
+                    decks={decks}
+                  />
+
+                  <Button
+                    className="w-full max-w-sm"
+                    variant={"secondary"}
+                    asChild
+                  >
+                    <Link href={"/search"}>Посмотреть все</Link>
+                  </Button>
                 </div>
               </>
             )}

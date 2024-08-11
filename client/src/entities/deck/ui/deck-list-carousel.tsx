@@ -15,8 +15,9 @@ import { useEffect, useState } from "react";
 
 interface Props {
   decks: DeckDTO[];
+  className?: string;
 }
-export function DeckListCarousel({ decks }: Props) {
+export function DeckListCarousel({ decks, className }: Props) {
   const [carouselApi, setCarouselApi] = useState<CarouselApi>();
 
   const currentBreakpoint = useWindowSize();
@@ -79,19 +80,19 @@ export function DeckListCarousel({ decks }: Props) {
   }, [currentBreakpoint, decks, decksPerPane]);
 
   return (
-    <>
+    <div className={className}>
       <Carousel
         setApi={setCarouselApi}
         opts={{
           align: "center",
         }}
-        className="w-full max-w-72 max-h-[400px] sm:max-w-96 md:max-w-screen-sm lg:max-w-screen-md xl:max-w-screen-lg mx-auto"
+        className="w-full  h-[400px] sm:max-w-96 md:max-w-screen-sm lg:max-w-screen-md xl:max-w-screen-lg mx-auto"
       >
         <CarouselContent>
           {Array.from({
             length: panesTotal,
           }).map((_, index) => (
-            <CarouselItem className="grow-1 shrink-1" key={index}>
+            <CarouselItem className="h-[400px] grow-1 shrink-1" key={index}>
               <DeckList
                 decks={decks.slice(
                   index * decksPerPane,
@@ -106,10 +107,10 @@ export function DeckListCarousel({ decks }: Props) {
       </Carousel>
       {panesTotal > 1 && (
         <Progress
-          className="rounded-none h-[2px] position-relative"
+          className="rounded-none h-[2px] position-relative sm:max-w-96 md:max-w-screen-sm lg:max-w-screen-md xl:max-w-screen-lg mx-auto"
           value={(currentPane / panesTotal) * 100}
         />
       )}
-    </>
+    </div>
   );
 }
