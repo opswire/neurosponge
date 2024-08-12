@@ -53,17 +53,3 @@ export interface RefreshResponse extends ResponseBase {
     expires_in: number;
   };
 }
-
-export interface GetUserResponse extends ResponseBase {
-  data: {
-    id: string;
-    name: string;
-    email: string;
-  };
-}
-
-export interface UserDTO {
-  id: string;
-  name: string;
-  email: string;
-}

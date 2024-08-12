@@ -1,4 +1,3 @@
-import { getUser } from "@/shared";
 import { Header } from "../ui/header";
 
 export default async function RootGroupLayout({
@@ -6,11 +5,9 @@ export default async function RootGroupLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  let user;
-  user = await getUser();
   return (
     <>
-      <Header user={user} />
+      <Header />
       {children}
     </>
   );

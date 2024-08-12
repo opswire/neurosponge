@@ -5,22 +5,14 @@ import { ModeToggle } from "./mode-toggle";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
-import { Menu, User } from "lucide-react";
+import { Menu } from "lucide-react";
 
 import {
   Drawer,
-  DrawerClose,
   DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
   DrawerTrigger,
 } from "@/shared/ui/components/ui/drawer";
 import { useEffect, useState } from "react";
-import { UserDTO } from "@/shared/api/auth/types";
-import { Avatar } from "@/shared";
-import { AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 
 const LoginButton = () => {
   return (
@@ -45,28 +37,7 @@ const NavLink: React.FC<{ text: string; href: string; isActive: boolean }> = ({
   );
 };
 
-const ProfileButton: React.FC<{ user: UserDTO }> = ({ user }) => {
-  return (
-    <Link className="flex gap-2 items-center justify-start" href={"/profile"}>
-      <Avatar className="w-10 h-10">
-        <AvatarImage
-          sizes="16px 16px"
-          className="rounded"
-          src="https://github.com/shadcn.png"
-        />
-        <AvatarFallback className="w-full h-full rounded bg-muted flex justify-center items-center">
-          <User className="h-6 w-6" />
-        </AvatarFallback>
-      </Avatar>
-      <p className="leading-7 text-muted-foreground">{user.name}</p>
-    </Link>
-  );
-};
-
-interface Props {
-  user: UserDTO | null;
-}
-export const Header = ({ user }: Props) => {
+export const Header = () => {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
 
@@ -99,7 +70,8 @@ export const Header = ({ user }: Props) => {
           </div>
         </div>
         <div className="hidden sm:flex gap-4">
-          {user ? <ProfileButton user={user} /> : <LoginButton />}
+          {" "}
+          <LoginButton />
           <ModeToggle />
         </div>
 
@@ -130,7 +102,7 @@ export const Header = ({ user }: Props) => {
                   />
                 </div>
                 <div className="flex  gap-4">
-                  {user ? <ProfileButton user={user} /> : <LoginButton />}
+                  <LoginButton />
 
                   <ModeToggle />
                 </div>

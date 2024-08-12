@@ -25,3 +25,5 @@ export * from "./ui/components/ui/password-input";
 export * from "./ui/components/ui/alert";
 
 export * from "./api/auth/actions";
+
+export * from "./api/auth/fetch-with-auth-action";
