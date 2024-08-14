@@ -48,28 +48,49 @@ const DrawerContent = React.forwardRef<
   return (
     <DrawerPortal>
       <DrawerOverlay />
-      <DrawerPrimitive.Content
-        ref={ref}
-        className={cn(
-          "fixed  z-50 flex h-auto border bg-background",
-          (!direction || direction === "bottom") &&
-            "inset-x-0 bottom-0 mt-24 flex-col rounded-t-[10px]",
-          direction === "right" &&
-            "inset-y-0 right-0 w-screen max-w-80 h-full flex-row items-stretch justify-stretch ",
-          className
-        )}
-        {...props}
-      >
-        <div
+      {direction === "left" ? (
+        <DrawerPrimitive.Content
+          ref={ref}
           className={cn(
-            (!direction || direction === "bottom") &&
-              "mx-auto mt-4 h-2 w-[100px] rounded-full bg-muted",
-            direction === "right" &&
-              "ml-2 h-[100px] w-2 rounded-full bg-muted self-center flex-none"
+            "fixed  z-50 flex h-auto border bg-background",
+            direction === "left" &&
+              "inset-y-0 left-0 w-screen max-w-80 h-full flex-row items-stretch justify-stretch ",
+            className
           )}
-        />
-        {children}
-      </DrawerPrimitive.Content>
+          {...props}
+        >
+          {children}
+          <div
+            className={cn(
+              direction === "left" &&
+                "absolute right-2 top-0 bottom-0 h-[100px] w-2 rounded-full bg-muted self-center flex-none"
+            )}
+          />
+        </DrawerPrimitive.Content>
+      ) : (
+        <DrawerPrimitive.Content
+          ref={ref}
+          className={cn(
+            "fixed  z-50 flex h-auto border bg-background",
+            (!direction || direction === "bottom") &&
+              "inset-x-0 bottom-0 mt-24 flex-col rounded-t-[10px]",
+            direction === "right" &&
+              "inset-y-0 right-0 w-screen max-w-80 h-full flex-row items-stretch justify-stretch ",
+            className
+          )}
+          {...props}
+        >
+          <div
+            className={cn(
+              (!direction || direction === "bottom") &&
+                "mx-auto mt-4 h-2 w-[100px] rounded-full bg-muted",
+              direction === "right" &&
+                "ml-2 h-[100px] w-2 rounded-full bg-muted self-center flex-none"
+            )}
+          />
+          {children}
+        </DrawerPrimitive.Content>
+      )}
     </DrawerPortal>
   );
 });

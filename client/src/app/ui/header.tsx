@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/shared/ui/components/ui/button";
-import { ModeToggle } from "./mode-toggle";
+import { ThemeToggle } from "@/shared";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
@@ -72,7 +72,7 @@ export const Header = () => {
         <div className="hidden sm:flex gap-4">
           {" "}
           <LoginButton />
-          <ModeToggle />
+          <ThemeToggle />
         </div>
 
         {/* Mobile */}
@@ -104,7 +104,7 @@ export const Header = () => {
                 <div className="flex  gap-4">
                   <LoginButton />
 
-                  <ModeToggle />
+                  <ThemeToggle />
                 </div>
               </div>
             </DrawerContent>
