@@ -65,10 +65,16 @@ function HeaderContentSection({ children, className }: ContentSectionProps) {
 
 interface ContentProps {
   children: React.ReactNode;
+  className?: string;
 }
-function HeaderContent({ children }: ContentProps) {
+function HeaderContent({ children, className }: ContentProps) {
   return (
-    <div className="p-4 h-full mx-auto flex  items-center justify-between ">
+    <div
+      className={cn(
+        "p-4 h-full mx-auto flex  items-center justify-between ",
+        className
+      )}
+    >
       {children}
     </div>
   );

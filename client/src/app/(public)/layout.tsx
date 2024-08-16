@@ -1,4 +1,4 @@
-import { Header } from "../ui/header";
+import { PublicHeader } from "./_components";
 
 export default async function RootGroupLayout({
   children,
@@ -7,7 +7,7 @@ export default async function RootGroupLayout({
 }>) {
   return (
     <>
-      <Header />
+      <PublicHeader />
       {children}
     </>
   );
