@@ -3,13 +3,10 @@ import {
   Header,
   HeaderContent,
   HeaderContentSection,
-  HeaderCTAButton,
-  HeaderLogo,
-  HeaderNav,
-  HeaderNavButton,
-  Separator,
+  ThemeToggle,
 } from "@/shared";
-import { ThemeToggle } from "@/shared";
+import { Sidebar, SidebarProvider, SidebarTrigger } from "./components/sidebar";
+import { LogoShort } from "@/shared";
 
 export default async function PrivateGroupLayout({
   children,
@@ -18,24 +15,24 @@ export default async function PrivateGroupLayout({
 }>) {
   const user = await getUser();
   return (
-    <>
+    <SidebarProvider>
       <Header>
         <HeaderContent>
-          <HeaderContentSection className="flex items-baseline gap-4">
-            <HeaderLogo />
-            <HeaderNav>
-              <HeaderNavButton text={"Колоды"} href={"/search"} />
-              <HeaderNavButton text={"Тарифы"} href={"/pricing"} />
-            </HeaderNav>
+          <HeaderContentSection className="flex items-center gap-2">
+            <SidebarTrigger />
+            <LogoShort />
           </HeaderContentSection>
 
           <HeaderContentSection>
-            <ProfileButton user={user} />
             <ThemeToggle />
+            <ProfileButton user={user} />
           </HeaderContentSection>
         </HeaderContent>
       </Header>
-      <>{children}</>;
-    </>
+      <div className="flex">
+        <Sidebar user={user} />
+        <div className="w-full basis-10/12">{children}</div>
+      </div>
+    </SidebarProvider>
   );
 }
