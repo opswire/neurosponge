@@ -1,9 +1,6 @@
 "use client";
 
 import {
-  Drawer,
-  DrawerContent,
-  DrawerTrigger,
   Header,
   HeaderContent,
   HeaderContentSection,
@@ -11,11 +8,34 @@ import {
   HeaderNav,
   HeaderNavButton,
   LogoShort,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMobile,
+  SidebarMobileBody,
+  SidebarMobileHeader,
+  SidebarProvider,
+  SidebarTrigger,
   ThemeToggle,
   useWindowSize,
 } from "@/shared";
-import { Menu } from "lucide-react";
-import { use, useEffect, useState } from "react";
+import { RussianRuble, Search } from "lucide-react";
+
+const NavBody = () => {
+  return (
+    <SidebarMenu>
+      <SidebarMenuButton
+        href="/search"
+        title="Поиск по колодам"
+        IconComponent={<Search className="w-6 h-6" />}
+      />
+      <SidebarMenuButton
+        href="/pricing"
+        title="Тарифы"
+        IconComponent={<RussianRuble className="w-6 h-6" />}
+      />
+    </SidebarMenu>
+  );
+};
 
 type HeaderLink = {
   text: string;
@@ -48,12 +68,18 @@ function PublicHeader() {
     <Header>
       <HeaderContent className="lg:max-w-screen-lg xl:max-w-screen-xl mx-auto">
         <HeaderContentSection className="flex items-center gap-2">
-          <Drawer direction="left">
-            <DrawerTrigger>
-              <Menu />
-            </DrawerTrigger>
-            <DrawerContent></DrawerContent>
-          </Drawer>
+          <SidebarProvider>
+            <SidebarTrigger />
+            <SidebarMobile>
+              <SidebarMobileHeader>
+                <SidebarTrigger />
+                <LogoShort />
+              </SidebarMobileHeader>
+              <SidebarMobileBody>
+                <NavBody />
+              </SidebarMobileBody>
+            </SidebarMobile>
+          </SidebarProvider>
           {headerData.logo}
         </HeaderContentSection>
         <HeaderContentSection>

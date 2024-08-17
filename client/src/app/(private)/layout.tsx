@@ -5,8 +5,9 @@ import {
   HeaderContentSection,
   ThemeToggle,
 } from "@/shared";
-import { Sidebar, SidebarProvider, SidebarTrigger } from "./components/sidebar";
 import { LogoShort } from "@/shared";
+import { SidebarProvider, SidebarTrigger } from "@/shared";
+import { SideNav } from "./_components/sidenav";
 
 export default async function PrivateGroupLayout({
   children,
@@ -30,7 +31,7 @@ export default async function PrivateGroupLayout({
         </HeaderContent>
       </Header>
       <div className="flex">
-        <Sidebar user={user} />
+        <SideNav user={user} />
         <div className="w-full basis-10/12">{children}</div>
       </div>
     </SidebarProvider>
