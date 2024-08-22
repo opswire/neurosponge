@@ -1,4 +1,4 @@
-## NeuroSponge
+# NeuroSponge
 
 ## Deploy
 
@@ -8,7 +8,11 @@
 - make migrate
 - make seed
 
-----------
+## Credentials:
+- admin: admin@admin.com:admin
+- student: student@student.com:student
+
+--------------------------
 
 ## Get all decks
 
@@ -40,3 +44,9 @@
 ### Body params
     - [required] email=value
     - [required] password=value
+
+# Repetition
+
+- Get summary: [GET] localhost:8888/api/v1/deck/{deckId}/repetition/summary (auth + admin only)
+
+--------------------------
