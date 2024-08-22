@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\DTO\Deck\Repetition\input;
 
-use App\Enum\Deck\Repetition\RepetitionRatingEnum;
 use App\Models\Deck\Card\Card;
 use Illuminate\Validation\Rule;
 use Spatie\LaravelData\Attributes\FromRouteParameter;
@@ -15,14 +14,14 @@ final class InputRepeatCardDTO extends Data
     public function __construct(
         #[FromRouteParameter('cardId')]
         public int $cardId,
-        public string $rating,
+        public bool $is_positive,
     ) {}
 
     public static function rules(ValidationContext $context): array
     {
         return [
             'cardId' => ['bail', 'required', 'integer', Rule::exists(Card::getTableName(), 'id')],
-            'rating' => ['bail', 'required', 'string', Rule::enum(RepetitionRatingEnum::class)],
+            'is_positive' => ['bail', 'required', 'boolean'],
         ];
     }
 }

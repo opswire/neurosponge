@@ -1,6 +1,6 @@
 <?php
 
-use App\Action\Deck\Repetition\RepeatCardAction;
+use App\Action\Deck\Repetition\DeckRepeatCardAction;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Artisan;
@@ -10,6 +10,6 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote')->hourly();
 
 Artisan::command('test', function () {
-   $ans = App::make(RepeatCardAction::class)->execute(1, 'easy');
+   $ans = App::make(DeckRepeatCardAction::class)->execute(1, 'easy');
    dd($ans);
 });

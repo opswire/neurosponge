@@ -6,6 +6,7 @@ namespace App\Models\User;
 use Database\Factories\User\UserFactory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -66,10 +67,21 @@ final class User extends Authenticatable implements JWTSubject
         return [];
     }
 
+    // [Relations]
+
     public function profile(): HasOne
     {
         return $this->hasOne(
             related: UserProfile::class,
+            foreignKey: 'user_id',
+            localKey: 'id',
+        );
+    }
+
+    public function userCards(): HasMany
+    {
+        return $this->hasMany(
+            related: UserCard::class,
             foreignKey: 'user_id',
             localKey: 'id',
         );

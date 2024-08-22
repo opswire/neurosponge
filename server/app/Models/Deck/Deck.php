@@ -65,12 +65,15 @@ final class Deck extends AbstractModel
         return DeckFactory::new();
     }
 
-    public function cards(): HasMany
+    public function cards(): BelongsToMany
     {
-        return $this->hasMany(
+        return $this->belongsToMany(
             related: Card::class,
-            foreignKey: 'deck_id',
-            localKey: 'id',
+            table: 'card_deck',
+            foreignPivotKey: 'deck_id',
+            relatedPivotKey: 'card_id',
+            parentKey: 'id',
+            relatedKey: 'id',
         );
     }
 

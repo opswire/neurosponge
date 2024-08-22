@@ -11,22 +11,18 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('card_deck', function (Blueprint $table) {
-            $table->id();
             $table
                 ->foreignId('card_id')
                 ->constrained(Card::getTableName())
-                ->cascadeOnDelete()
-                ->cascadeOnUpdate();
+                ->restrictOnDelete()
+                ->restrictOnUpdate();
             $table
                 ->foreignId('deck_id')
                 ->constrained(Deck::getTableName())
-                ->cascadeOnDelete()
-                ->cascadeOnUpdate();
-            $table->double('stability_repetition')->default(0.0);
-            $table->double('difficult_repetition')->default(0.0);
-            $table->dateTime('last_time_repetition')->nullable();
+                ->restrictOnDelete()
+                ->restrictOnUpdate();
 
-            $table->unique(['card_id']);
+            $table->unique(['card_id', 'deck_id']);
         });
     }
 

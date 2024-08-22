@@ -28,7 +28,9 @@ final class DeckSeeder extends Seeder
                 factory: DeckCategory::factory()->state(['title' => 'Angular']),
                 relationship: 'category',
             )
-            ->has(factory: Card::factory()->count(50))
-            ->create();
+            ->create()
+            ->each(function(Deck $deck) {
+                $deck->cards()->attach(Card::factory()->count(50)->create());
+            });
     }
 }
