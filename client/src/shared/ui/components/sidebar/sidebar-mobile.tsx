@@ -6,18 +6,15 @@ import {
   DrawerDescription,
   DrawerHeader,
   DrawerTitle,
-  LogoShort,
-  Separator,
 } from "@/shared";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
-import { SidebarContext, SidebarTrigger } from "./sidebar-context";
+import { SidebarContext } from "./sidebar-context";
 import { useContext } from "react";
 
 function SidebarMobileHeader({ children }: { children: React.ReactNode }) {
   return (
     <DrawerHeader className="h-16 flex items-center gap-2 px-4">
-      <SidebarTrigger />
-      <LogoShort />
+      {children}
     </DrawerHeader>
   );
 }

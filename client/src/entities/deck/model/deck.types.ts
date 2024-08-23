@@ -23,6 +23,7 @@ export type DeckDTO = {
   cards: CardDTO[];
 };
 
+/*eslint-disable no-unused-vars*/
 export enum DeckQueryParamKeys {
   search = "filter[search]",
   category_id = "filter[category_id]",

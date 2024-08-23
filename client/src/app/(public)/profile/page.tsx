@@ -1,4 +1,3 @@
-import { redirect } from "next/navigation";
 import LogoutButton from "./components/logout-button";
 import { getUser } from "@/entities";
 

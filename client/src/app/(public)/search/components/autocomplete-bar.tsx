@@ -71,13 +71,14 @@ export const AutoComplete = ({
     }
   }, SUGGESTION_DEBOUNCE_TIME);
 
-  const handleValueChange = (value: string) => {
-    setInputValue(value);
-
-    setOpen(value ? true : false);
-
-    debouncedGetSuggestions();
-  };
+  const handleValueChange = useCallback(
+    (value: string) => {
+      setInputValue(value);
+      setOpen(value ? true : false);
+      debouncedGetSuggestions();
+    },
+    [setInputValue, setOpen, debouncedGetSuggestions]
+  );
 
   //применение поискового запроса
   const handleSearch = useDebouncedCallback((queryString: string) => {
@@ -117,7 +118,7 @@ export const AutoComplete = ({
         input.blur();
       }
     },
-    [isOpen, suggestions, handleValueChange]
+    [isOpen]
   );
 
   //установлен на родительском компоненте инпута, т.к. к нему всплывает событие при блюре инпута
@@ -138,7 +139,7 @@ export const AutoComplete = ({
         inputRef?.current?.blur();
       }, 0);
     },
-    [handleValueChange]
+    [handleValueChange, handleSearch]
   );
 
   return (

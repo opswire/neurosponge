@@ -36,7 +36,7 @@ interface Props {
   user: UserDTO;
   className?: string;
 }
-function SideNav({ user, className }: Props) {
+function SideNav({}: Props) {
   const breakpoint = useWindowSize();
 
   const isMobile = breakpoint === "sm" || breakpoint === "default";

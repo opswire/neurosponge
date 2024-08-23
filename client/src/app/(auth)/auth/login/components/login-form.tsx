@@ -13,12 +13,11 @@ import {
   login,
   Alert,
   AlertTitle,
-  AlertDescription,
 } from "@/shared";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LogIn, Octagon } from "lucide-react";
 import { useState } from "react";
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { z } from "zod";
 import GoogleIcon from "@/shared/ui/assets/google_web.svg";
 import Image from "next/image";

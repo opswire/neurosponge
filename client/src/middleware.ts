@@ -10,6 +10,8 @@ export default async function middleware(req: NextRequest) {
   // Check if the path is protected or public
   const path = req.nextUrl.pathname;
   const isProtectedRoute = protectedRoutes.includes(path);
+
+  /* eslint-disable no-unused-vars */
   const isPublicRoute = publicRoutes.includes(path);
   const isNoAuthRoute = noAuthRoutes.includes(path);
   //Intercept response to update token

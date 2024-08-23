@@ -77,7 +77,7 @@ export function DeckListCarousel({ decks, className }: Props) {
     carouselApi?.scrollTo(0, false);
 
     setCurrentPane(carouselApi?.selectedScrollSnap() + 1);
-  }, [currentBreakpoint, decks, decksPerPane]);
+  }, [currentBreakpoint, decks, decksPerPane, carouselApi]);
 
   return (
     <div className={className}>

@@ -32,7 +32,7 @@ export function useWindowSize() {
     handleResize();
 
     return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  }, [screens]);
 
   return windowSize;
 }

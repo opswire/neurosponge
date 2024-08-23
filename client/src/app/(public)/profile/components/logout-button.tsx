@@ -1,7 +1,7 @@
 "use client";
 
 import { Button, logout } from "@/shared/";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export default function LogoutButton() {
   const router = useRouter();

@@ -25,6 +25,7 @@ export function SortMenu({ className }: Props) {
   const { sort_created_at, sort_id } = DeckQueryParamKeys;
   const searchParams = useSearchParams();
 
+  /*eslint-disable no-unused-vars */
   enum SortingOptions {
     relevance = "relevance",
     date = "date",
@@ -44,6 +45,7 @@ export function SortMenu({ className }: Props) {
     }
   };
 
+  /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
     const params = new URLSearchParams(searchParams);
     params.delete(sort_created_at);

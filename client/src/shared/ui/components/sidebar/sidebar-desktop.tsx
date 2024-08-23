@@ -23,7 +23,7 @@ interface Props {
   children: React.ReactNode;
 }
 function SidebarDesktop({ children }: Props) {
-  const { isOpen, setOpen } = useContext(SidebarContext);
+  const { isOpen } = useContext(SidebarContext);
 
   return (
     <aside

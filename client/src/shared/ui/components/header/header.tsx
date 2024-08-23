@@ -1,5 +1,5 @@
 "use client";
-import { createContext, useContext, useState } from "react";
+import { createContext, useState } from "react";
 import { Button, cn, useWindowSize } from "@/shared";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -7,11 +7,14 @@ import clsx from "clsx";
 
 type HeaderContextType = {
   isDrawerOpen: boolean;
-  setIsDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>;
+
+  /*eslint-disable-next-line no-unused-vars */
+  setIsDrawerOpen: (value: boolean) => void;
   isMobile: boolean;
 };
-const HeaderContext = createContext({
+const HeaderContext = createContext<HeaderContextType>({
   isDrawerOpen: false,
+  /*eslint-disable-next-line no-unused-vars */
   setIsDrawerOpen: (value: boolean) => {},
 
   isMobile: false,
